@@ -95,11 +95,17 @@ body.loading-active { overflow: hidden; }
   font-weight: 700;
   font-size: clamp(11px, 1.3vw, 15px);
   letter-spacing: 0.08em;
-  color: rgba(255,255,255,0.92);
+  color: rgba(255,255,255,0.95);
   text-transform: none;
   text-wrap: balance;
   line-height: 1.45;
   text-shadow: 0 2px 14px rgba(0,0,0,0.85);
+  background: rgba(0,0,0,0.52);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
 .loader-pct {
@@ -563,7 +569,7 @@ section[id] { scroll-margin-top: 80px; }
 
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 2px;
 }
 
@@ -1635,8 +1641,9 @@ section[id] { scroll-margin-top: 80px; }
   .loader-logo { width: clamp(140px, 36vw, 200px); }
   .loader-sub {
     letter-spacing: 0.04em;
-    font-size: clamp(10px, 3vw, 13px);
+    font-size: clamp(12px, 3.5vw, 14px);
     line-height: 1.35;
+    padding: 7px 16px;
   }
   .loader-pct {
     font-size: clamp(15px, 4.2vw, 20px);
