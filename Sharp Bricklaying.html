@@ -1,0 +1,1700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sharp Bricklaying — Perth's Sharpest Bricklayers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --green: #1B4332;
+    --green-light: #2d6a4f;
+    --terracotta: #C1440E;
+    --terracotta-dark: #a33a0c;
+    --sand: #F5F0E8;
+    --charcoal: #2C2C2C;
+    --mortar: #8C8880;
+    --white: #fdfaf5;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--sand);
+    color: var(--charcoal);
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  body.loading-active { overflow: hidden; }
+
+  /* ─── LOADING SCREEN ─── */
+  #loader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #1a1208;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  #loader.done { pointer-events: none; }
+
+  #brick-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .loader-brand {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .loader-logo {
+    width: 100px;
+    filter: drop-shadow(0 2px 12px rgba(0,0,0,0.6));
+  }
+
+  .loader-wordmark {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 52px;
+    color: #fff;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+  }
+
+  .loader-sub {
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+  }
+
+  .loader-pct {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.5);
+    margin-top: 8px;
+  }
+
+  /* wall-lift reveal — single panel slides UP */
+  .wall-panel {
+    position: absolute;
+    inset: 0;
+    transition: transform 1.1s cubic-bezier(0.76, 0, 0.24, 1);
+    pointer-events: none;
+    z-index: 3;
+    transform: translateY(0);
+  }
+  #loader.reveal .wall-panel { transform: translateY(-100%); }
+
+  /* ─── NAV ─── */
+  #nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 52px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.35s, box-shadow 0.35s;
+    background: linear-gradient(to bottom, rgba(10,22,14,0.72) 0%, rgba(10,22,14,0) 100%);
+    border-bottom: 1px solid transparent;
+  }
+
+  #nav.scrolled {
+    background: var(--white);
+    border-bottom: 2px solid var(--green);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .nav-logo img {
+    height: 48px;
+    width: auto;
+    transition: opacity 0.2s;
+  }
+
+  .nav-logo:hover img { opacity: 0.85; }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+  }
+
+  .nav-links li { position: relative; }
+
+  .nav-links a {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.92);
+    text-decoration: none;
+    padding: 8px 16px;
+    display: block;
+    position: relative;
+    transition: color 0.2s;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 2px; left: 16px; right: 16px;
+    height: 2px;
+    background: var(--terracotta);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+
+  .nav-links a:hover::after { transform: scaleX(1); }
+  .nav-links a:hover { color: #fff !important; }
+
+  #nav.scrolled .nav-links a { color: var(--charcoal); }
+  #nav.scrolled .nav-links a:hover { color: var(--green) !important; }
+
+  .nav-divider {
+    width: 1px;
+    height: 18px;
+    background: rgba(255,255,255,0.2);
+    margin: 0 8px;
+  }
+
+  #nav.scrolled .nav-divider { background: rgba(0,0,0,0.15); }
+
+  .nav-cta {
+    background: var(--green);
+    color: #fff !important;
+    padding: 11px 24px;
+    font-size: 11px !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase;
+    font-weight: 700 !important;
+    text-decoration: none;
+    border: 2px solid var(--green);
+    transition: background 0.2s, border-color 0.2s !important;
+    margin-left: 8px;
+  }
+
+  .nav-cta::after { display: none !important; }
+
+  .nav-cta:hover {
+    background: var(--terracotta) !important;
+    border-color: var(--terracotta) !important;
+    color: #fff !important;
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    position: relative;
+    height: 100vh;
+    min-height: 640px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('uploads/WhatsApp Image 2026-04-20 at 1.56.30 PM (2).jpeg');
+    background-size: cover;
+    background-position: center 30%;
+    will-change: transform;
+  }
+
+  .hero-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(27,67,50,0.85) 0%, rgba(44,44,44,0.5) 45%, rgba(0,0,0,0.1) 100%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 80px 100px;
+    max-width: 900px;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 2px;
+    background: var(--terracotta);
+  }
+
+  .hero-heading {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(56px, 8vw, 104px);
+    line-height: 0.92;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 40px rgba(0,0,0,0.3);
+  }
+
+  .hero-sub {
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 0.02em;
+    margin-bottom: 40px;
+    max-width: 520px;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--green);
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    text-decoration: none;
+    border: 2px solid var(--green);
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .btn-primary:hover {
+    background: var(--terracotta);
+    border-color: var(--terracotta);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    text-decoration: none;
+    border: 2px solid rgba(255,255,255,0.6);
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .btn-outline:hover {
+    border-color: #fff;
+    background: rgba(255,255,255,0.1);
+  }
+
+  /* ─── TICKER ─── */
+  #ticker {
+    background: var(--green);
+    padding: 0;
+    height: 52px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+  .ticker-track {
+    display: flex;
+    gap: 0;
+    animation: ticker-scroll 28s linear infinite;
+    white-space: nowrap;
+  }
+
+  .ticker-item {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+
+  .ticker-sep {
+    width: 6px;
+    height: 6px;
+    background: var(--terracotta);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  @keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ─── SECTION SHARED ─── */
+  section { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  section.visible { opacity: 1; transform: translateY(0); }
+
+  .section-label {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--terracotta);
+  }
+
+  .section-heading {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 4vw, 56px);
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    color: var(--green);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  /* ─── SERVICES ─── */
+  #services {
+    background: var(--sand);
+    padding: 96px 80px;
+  }
+
+  .services-header {
+    margin-bottom: 56px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .service-card {
+    background: var(--white);
+    padding: 40px 36px;
+    border-top: 3px solid var(--terracotta);
+    position: relative;
+    transition: box-shadow 0.3s;
+  }
+
+  .service-card:hover {
+    box-shadow: 0 8px 32px rgba(27,67,50,0.12);
+  }
+
+  .service-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 24px;
+    color: var(--green);
+  }
+
+  .service-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--charcoal);
+    margin-bottom: 14px;
+  }
+
+  .service-card p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--mortar);
+    margin-bottom: 24px;
+  }
+
+  .service-link {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: gap 0.2s, color 0.2s;
+  }
+
+  .service-link:hover { gap: 14px; color: var(--terracotta); }
+
+  /* ─── ABOUT ─── */
+  #about {
+    padding: 96px 80px;
+    background: var(--white);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .about-image-col {
+    position: relative;
+  }
+
+  .about-photo-wrap {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    background: #d4c9b8;
+  }
+
+  .about-photo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .about-brick-watermark {
+    position: absolute;
+    inset: 0;
+    opacity: 0.06;
+    background-image: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 18px,
+      var(--charcoal) 18px,
+      var(--charcoal) 20px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 38px,
+      var(--charcoal) 38px,
+      var(--charcoal) 40px
+    );
+    pointer-events: none;
+  }
+
+  .about-accent-block {
+    position: absolute;
+    bottom: -24px;
+    right: -24px;
+    width: 120px;
+    height: 120px;
+    background: var(--terracotta);
+    z-index: -1;
+  }
+
+  .about-years {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    background: var(--green);
+    color: #fff;
+    padding: 20px 24px;
+    text-align: center;
+  }
+
+  .about-years strong {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 48px;
+    line-height: 1;
+    color: #fff;
+  }
+
+  .about-years span {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+
+  .about-text h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 3.5vw, 52px);
+    text-transform: uppercase;
+    color: var(--green);
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+
+  .about-text p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #4a4540;
+    margin-bottom: 16px;
+  }
+
+  .about-pullquote {
+    border-left: 4px solid var(--green);
+    padding: 16px 24px;
+    margin: 32px 0;
+    background: rgba(27,67,50,0.04);
+  }
+
+  .about-pullquote p {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    font-style: italic;
+    color: var(--green);
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  /* ─── PORTFOLIO ─── */
+  #portfolio {
+    padding: 96px 80px;
+    background: var(--sand);
+  }
+
+  .portfolio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 48px;
+  }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+  }
+
+  .portfolio-item {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .portfolio-item:nth-child(1) { grid-row: span 2; }
+
+  .portfolio-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    min-height: 260px;
+    transition: transform 0.5s ease;
+  }
+
+  .portfolio-item:hover img { transform: scale(1.04); }
+
+  .portfolio-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(27,67,50,0.9) 0%, transparent 50%);
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+    display: flex;
+    align-items: flex-end;
+    padding: 24px;
+  }
+
+  .portfolio-item:hover .portfolio-overlay { transform: translateY(0); }
+
+  .portfolio-label h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: #fff;
+    letter-spacing: 0.05em;
+  }
+
+  .portfolio-label span {
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.1em;
+  }
+
+  .portfolio-cta {
+    margin-top: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--mortar);
+    padding: 24px 32px;
+    opacity: 0.7;
+  }
+
+  .portfolio-cta p {
+    font-size: 13px;
+    color: var(--mortar);
+    letter-spacing: 0.05em;
+  }
+
+  .portfolio-cta a {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ─── PRESS ─── */
+  #press {
+    padding: 72px 80px;
+    background: var(--white);
+    text-align: center;
+  }
+
+  #press .section-label { justify-content: center; }
+  #press .section-label::before { display: none; }
+
+  .press-logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 64px;
+    margin: 48px 0 40px;
+  }
+
+  .press-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.45;
+    filter: grayscale(1);
+    transition: opacity 0.2s;
+  }
+
+  .press-logo:hover { opacity: 0.7; }
+
+  .press-logo-badge {
+    width: 72px;
+    height: 72px;
+    border: 2px solid var(--charcoal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .press-logo-badge span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    color: var(--charcoal);
+    letter-spacing: 0.02em;
+  }
+
+  .press-logo small {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mortar);
+  }
+
+  .press-quote {
+    max-width: 560px;
+    margin: 0 auto;
+    font-size: 15px;
+    color: var(--mortar);
+    font-style: italic;
+    line-height: 1.7;
+    border-top: 1px solid #ddd;
+    padding-top: 32px;
+  }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    background: var(--green);
+    padding: 96px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contact-text h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(40px, 4.5vw, 64px);
+    text-transform: uppercase;
+    color: #fff;
+    line-height: 0.95;
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+  }
+
+  .contact-text p {
+    color: rgba(255,255,255,0.65);
+    font-size: 15px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .contact-detail {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: rgba(255,255,255,0.8);
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .contact-detail:hover { color: #fff; }
+
+  .contact-detail svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  .contact-social {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .social-btn {
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(255,255,255,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+
+  .social-btn:hover {
+    border-color: rgba(255,255,255,0.7);
+    color: #fff;
+    background: rgba(255,255,255,0.08);
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-group label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    font-weight: 700;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    padding: 13px 16px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    -webkit-appearance: none;
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+
+  .form-group select { cursor: pointer; }
+  .form-group select option { background: var(--green); color: #fff; }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.12);
+  }
+
+  .form-group textarea { resize: vertical; min-height: 100px; }
+
+  .btn-terracotta {
+    background: var(--terracotta);
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 16px 32px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    align-self: flex-start;
+  }
+
+  .btn-terracotta:hover { background: var(--terracotta-dark); }
+
+  /* ─── FOOTER ─── */
+  #footer {
+    background: var(--charcoal);
+    padding: 64px 80px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer-texture {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--terracotta) 0%, var(--terracotta) 60%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .footer-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 2.2fr 1fr 1fr;
+    gap: 72px;
+    padding: 64px 0 56px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .footer-brand img {
+    height: 64px;
+    width: auto;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .footer-tagline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 14px;
+  }
+
+  .footer-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.38);
+    line-height: 1.8;
+    max-width: 280px;
+  }
+
+  .footer-col h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-col ul a {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    transition: color 0.2s, padding-left 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.02em;
+  }
+
+  .footer-col ul a::before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 1px;
+    background: var(--terracotta);
+    transition: width 0.2s;
+    flex-shrink: 0;
+  }
+
+  .footer-col ul a:hover { color: rgba(255,255,255,0.9); }
+  .footer-col ul a:hover::before { width: 12px; }
+
+  .footer-social {
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .footer-social-btn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255,255,255,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .footer-social-btn:hover {
+    border-color: var(--terracotta);
+    color: var(--terracotta);
+    background: rgba(193,68,14,0.08);
+  }
+
+  .footer-bottom {
+    position: relative;
+    padding: 22px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-bottom p {
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.08em;
+  }
+
+  /* ─── DIVIDER ─── */
+  .brick-divider {
+    height: 4px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--terracotta) 0px,
+      var(--terracotta) 38px,
+      var(--sand) 38px,
+      var(--sand) 42px
+    );
+  }
+
+  /* ─── STATS BAR ─── */
+  #stats {
+    background: var(--charcoal);
+    padding: 56px 80px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+
+  .stat-item {
+    text-align: center;
+    padding: 32px 24px;
+    background: rgba(255,255,255,0.03);
+    border-top: 2px solid var(--terracotta);
+  }
+
+  .stat-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 52px;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    #nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .hero-content { padding: 0 32px 64px; }
+    #services { padding: 64px 32px; }
+    .services-grid { grid-template-columns: 1fr; gap: 2px; }
+    #about { padding: 64px 32px; grid-template-columns: 1fr; gap: 40px; }
+    #portfolio { padding: 64px 32px; }
+    .portfolio-grid { grid-template-columns: 1fr 1fr; }
+    .portfolio-item:nth-child(1) { grid-row: span 1; }
+    #press { padding: 56px 32px; }
+    #contact { padding: 64px 32px; grid-template-columns: 1fr; gap: 48px; }
+    #footer { padding: 48px 32px 0; }
+    .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+    #stats { padding: 48px 32px; grid-template-columns: repeat(2, 1fr); }
+    .portfolio-header { flex-direction: column; align-items: flex-start; gap: 24px; }
+    .form-row { grid-template-columns: 1fr; }
+    .hero-content { padding: 0 24px 56px; }
+  }
+</style>
+</head>
+<body class="loading-active">
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  LOADING SCREEN                                      -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="loader">
+  <canvas id="brick-canvas"></canvas>
+
+  <div class="loader-brand">
+    <img src="uploads/SharpBricklaying_Logos_Fill+Dog_Dark_Transparent.png" alt="Sharp Bricklaying" class="loader-logo">
+    <div class="loader-wordmark">SHARP</div>
+    <div class="loader-sub">Bricklaying · Perth, WA</div>
+    <div class="loader-pct" id="loader-pct">0%</div>
+  </div>
+
+  <!-- wall panel slides up on reveal -->
+  <div class="wall-panel" id="wall-panel"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  NAVIGATION                                          -->
+<!-- ═══════════════════════════════════════════════════ -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <img src="uploads/SharpBricklaying_Logos_Fill+Dog_Dark_Transparent.png" alt="Sharp Bricklaying">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#portfolio">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#press">Press</a></li>
+    <li class="nav-divider"></li>
+    <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  HERO                                                -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="hero" style="opacity:1;transform:none;">
+  <div class="hero-bg" id="hero-bg"></div>
+  <div class="hero-gradient"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Perth, Western Australia</div>
+    <h1 class="hero-heading">Perth's<br>Sharpest<br>Bricklayers</h1>
+    <p class="hero-sub">Trusted by Zorzi, Beamond, Giorgi &amp; Summit Homes. Built sharp. Built to last.</p>
+    <div class="hero-ctas">
+      <a href="#portfolio" class="btn-primary">See Our Work</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  TRUST TICKER                                        -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="ticker">
+  <div class="ticker-track" id="ticker-track">
+    <!-- items duplicated in JS -->
+  </div>
+</div>
+
+<div class="brick-divider"></div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  STATS                                              -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="stats">
+  <div class="stat-item">
+    <div class="stat-num">10+</div>
+    <div class="stat-label">Years in the Trade</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">200+</div>
+    <div class="stat-label">Homes Built</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">4</div>
+    <div class="stat-label">Premium Builders</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">2×</div>
+    <div class="stat-label">Seen on National TV</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  SERVICES                                            -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="services">
+  <div class="services-header">
+    <div class="section-label">What We Do</div>
+    <h2 class="section-heading">Our Services</h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M6 38h36M6 38V22l18-14 18 14v16"/>
+        <rect x="18" y="28" width="12" height="10" rx="0"/>
+        <path d="M14 22v16M34 22v16"/>
+      </svg>
+      <h3>Residential New Builds</h3>
+      <p>Full-brick and brick-veneer residential homes from slab to plate. We work alongside Perth's leading project builders to deliver tight tolerances, clean lines, and walls that stand for generations.</p>
+      <a href="#contact" class="service-link">Enquire Now →</a>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8">
+        <rect x="6" y="28" width="20" height="14" rx="0"/>
+        <path d="M26 42V20l16-6v28"/>
+        <path d="M6 28V16l20-8"/>
+        <path d="M26 28h16"/>
+      </svg>
+      <h3>Extensions &amp; Renovations</h3>
+      <p>Seamless brick matching and expert tying-in for home extensions. Whether matching heritage clay bricks or contemporary face brick, we integrate old and new so it looks like it was always there.</p>
+      <a href="#contact" class="service-link">Enquire Now →</a>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8">
+        <rect x="6" y="8" width="36" height="10" rx="0"/>
+        <rect x="6" y="22" width="36" height="10" rx="0"/>
+        <rect x="6" y="36" width="36" height="6" rx="0"/>
+        <line x1="16" y1="8" x2="16" y2="18"/>
+        <line x1="26" y1="8" x2="26" y2="18"/>
+        <line x1="21" y1="22" x2="21" y2="32"/>
+        <line x1="31" y1="22" x2="31" y2="32"/>
+      </svg>
+      <h3>Feature Walls &amp; Custom Work</h3>
+      <p>Statement brickwork, alfresco feature walls, retaining walls, and bespoke decorative patterns. This is where craft meets design — intricate work that adds real character and lasting value to any home.</p>
+      <a href="#contact" class="service-link">Enquire Now →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  ABOUT                                               -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="about">
+  <div class="about-image-col">
+    <div class="about-photo-wrap">
+      <img src="uploads/WhatsApp Image 2026-04-20 at 1.57.04 PM.jpeg" alt="Sharp Bricklaying on site">
+      <div class="about-brick-watermark"></div>
+      <div class="about-years">
+        <strong>10+</strong>
+        <span>Yrs Experience</span>
+      </div>
+    </div>
+    <div class="about-accent-block"></div>
+  </div>
+  <div class="about-text">
+    <div class="section-label">The Craftsman</div>
+    <h2>Built by Hand.<br>Every Time.</h2>
+    <p>Luke Sharp started Sharp Bricklaying with a simple belief: if your name's going on a wall, that wall should be something to be proud of. Based in Perth, WA, Luke and his team bring the same care to a modest extension as they do to a multi-million dollar prestige build.</p>
+    <p>That reputation has earned Sharp Bricklaying a place alongside Perth's most respected builders — Zorzi, Beamond, Giorgi, and Summit Homes. These aren't builders who take risks on their trades. They come back because the work is consistently right.</p>
+    <div class="about-pullquote">
+      <p>"We work with some of the biggest builders in Perth — and they keep calling back."</p>
+    </div>
+    <p>Sharp Bricklaying has also been featured on national television alongside Summit Homes, bringing a bit of Perth's finest brickwork to screens across the country.</p>
+    <a href="#contact" class="btn-primary" style="margin-top:8px;display:inline-block;">Work With Us</a>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  PORTFOLIO                                           -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="portfolio">
+  <div class="portfolio-header">
+    <div>
+      <div class="section-label">Our Work</div>
+      <h2 class="section-heading">Recent Projects</h2>
+    </div>
+    <a href="https://instagram.com/sharpbricklaying" target="_blank" class="btn-primary" style="white-space:nowrap;">Follow on Instagram</a>
+  </div>
+
+  <div class="portfolio-grid">
+    <div class="portfolio-item">
+      <img src="uploads/WhatsApp Image 2026-04-20 at 1.56.30 PM (1).jpeg" alt="Project">
+      <div class="portfolio-overlay">
+        <div class="portfolio-label">
+          <h4>Residential New Build</h4>
+          <span>Wembley, Perth WA</span>
+        </div>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <img src="uploads/WhatsApp Image 2026-04-20 at 1.56.30 PM.jpeg" alt="Project" style="min-height:260px;object-fit:cover;">
+      <div class="portfolio-overlay">
+        <div class="portfolio-label">
+          <h4>Double Storey Home</h4>
+          <span>Subiaco, Perth WA</span>
+        </div>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <img src="uploads/WhatsApp Image 2026-04-20 at 1.57.05 PM.jpeg" alt="Project" style="min-height:260px;object-fit:cover;">
+      <div class="portfolio-overlay">
+        <div class="portfolio-label">
+          <h4>Prestige Custom Build</h4>
+          <span>Cottesloe, Perth WA</span>
+        </div>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <img src="uploads/WhatsApp Image 2026-04-20 at 1.56.30 PM (2).jpeg" alt="Project">
+      <div class="portfolio-overlay">
+        <div class="portfolio-label">
+          <h4>Full Brick New Home</h4>
+          <span>Mount Lawley, Perth WA</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="portfolio-cta">
+    <p>Full portfolio with detailed case studies — coming soon.</p>
+    <a href="https://instagram.com/sharpbricklaying" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+      @sharpbricklaying
+    </a>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  PRESS                                               -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="press">
+  <div class="section-label">As Seen On</div>
+  <h2 class="section-heading" style="text-align:center;">National Television</h2>
+  <div class="press-logos">
+    <div class="press-logo">
+      <div class="press-logo-badge"><span>9</span></div>
+      <small>Channel Nine</small>
+    </div>
+    <div class="press-logo">
+      <div class="press-logo-badge"><span>10</span></div>
+      <small>Channel Ten</small>
+    </div>
+  </div>
+  <p class="press-quote">Sharp Bricklaying featured alongside Summit Homes in a recent build special — Perth's craft brickwork on national screens.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  CONTACT                                             -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="contact">
+  <div class="contact-text">
+    <div class="section-label" style="color:rgba(255,255,255,0.5);">
+      <span style="display:block;width:24px;height:2px;background:var(--terracotta);"></span>
+      Get in Touch
+    </div>
+    <h2>Ready to Build Something Sharp?</h2>
+    <p>Get in touch for a quote on your next project — new home, extension, or feature wall. Luke personally handles all enquiries.</p>
+    <div class="contact-details">
+      <a href="mailto:luke@sharpbricklaying.net" class="contact-detail">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="0"/><path d="M2 4l10 9 10-9"/></svg>
+        luke@sharpbricklaying.net
+      </a>
+      <a href="tel:+61400000000" class="contact-detail">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.6 10.8a15.7 15.7 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.5 11.5 0 0 0 3.6.6 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.5 11.5 0 0 0 .6 3.6 1 1 0 0 1-.25 1L6.6 10.8z"/></svg>
+        Contact us for pricing
+      </a>
+      <a href="#" class="contact-detail">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Perth, Western Australia
+      </a>
+    </div>
+    <div class="contact-social">
+      <a href="https://instagram.com/sharpbricklaying" target="_blank" class="social-btn" title="Instagram">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="#" target="_blank" class="social-btn" title="Facebook">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <form class="contact-form" onsubmit="return false;">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" placeholder="Your name">
+      </div>
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="tel" placeholder="04XX XXX XXX">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" placeholder="your@email.com">
+    </div>
+    <div class="form-group">
+      <label>Project Type</label>
+      <select>
+        <option value="" disabled selected>Select project type</option>
+        <option>New Home</option>
+        <option>Extension / Renovation</option>
+        <option>Feature Wall</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Message</label>
+      <textarea placeholder="Tell us about your project..."></textarea>
+    </div>
+    <button type="submit" class="btn-terracotta">Send Enquiry</button>
+  </form>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  FOOTER                                              -->
+<!-- ═══════════════════════════════════════════════════ -->
+<footer id="footer">
+  <div class="footer-texture"></div>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="uploads/SharpBricklaying_Logo_GreenBG.jpg" alt="Sharp Bricklaying">
+      <div class="footer-tagline">Built Sharp. Built to Last.</div>
+      <p class="footer-desc">Premium residential bricklaying serving Perth's finest builders. Sharp by name, sharp by nature.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="#portfolio">Our Work</a></li>
+        <li><a href="#about">About Luke</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#press">Press</a></li>
+        <li><a href="#contact">Get a Quote</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="mailto:luke@sharpbricklaying.net">luke@sharpbricklaying.net</a></li>
+        <li><a href="https://instagram.com/sharpbricklaying" target="_blank">@sharpbricklaying</a></li>
+        <li><a href="#">Facebook</a></li>
+      </ul>
+      <div class="footer-social" style="margin-top:20px;">
+        <a href="https://instagram.com/sharpbricklaying" target="_blank" class="footer-social-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="#" class="footer-social-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Sharp Bricklaying. Perth, WA. All rights reserved.</p>
+    <p style="color:rgba(255,255,255,0.2);">ABN: Available on request</p>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  SCRIPTS                                             -->
+<!-- ═══════════════════════════════════════════════════ -->
+<script>
+// ─── TICKER SETUP ───────────────────────────────────────
+const tickerItems = [
+  'Zorzi Builders','Beamond Homes','Giorgi','Summit Homes',
+  'As Seen on Channel 9','As Seen on Channel 10','Perth, WA'
+];
+const track = document.getElementById('ticker-track');
+const buildTicker = () => {
+  track.innerHTML = '';
+  // double for seamless loop
+  for (let r = 0; r < 2; r++) {
+    tickerItems.forEach(t => {
+      const item = document.createElement('span');
+      item.className = 'ticker-item';
+      item.innerHTML = `${t}<span class="ticker-sep"></span>`;
+      track.appendChild(item);
+    });
+  }
+};
+buildTicker();
+
+// ─── NAV SCROLL ─────────────────────────────────────────
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ─── PARALLAX HERO ──────────────────────────────────────
+const heroBg = document.getElementById('hero-bg');
+window.addEventListener('scroll', () => {
+  if (window.innerWidth < 900) return;
+  const y = window.scrollY;
+  heroBg.style.transform = `translateY(${y * 0.35}px)`;
+}, { passive: true });
+
+// ─── SCROLL REVEAL ──────────────────────────────────────
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('section:not(#hero)').forEach(s => revealObserver.observe(s));
+
+// ─── BRICK LOADER ───────────────────────────────────────
+(function() {
+  const loader = document.getElementById('loader');
+  const canvas = document.getElementById('brick-canvas');
+  const ctx = canvas.getContext('2d');
+  const pctEl = document.getElementById('loader-pct');
+  const wallPanel = document.getElementById('wall-panel');
+
+  const BRICK_W = 76;
+  const BRICK_H = 26;
+  const MORTAR = 4;
+  const STRIDE_W = BRICK_W + MORTAR;
+  const STRIDE_H = BRICK_H + MORTAR;
+
+  let W, H, cols, rows;
+  let progress = 0; // 0-1
+  let animFrame;
+  let startTime = null;
+  const DURATION = 2600; // ms to fill the wall
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    cols = Math.ceil(W / STRIDE_W) + 2;
+    rows = Math.ceil(H / STRIDE_H) + 2;
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+
+  function brickColor(row, col, totalRows) {
+    // Blue brick: one special brick in the top active row
+    const isBlueBrick = col === Math.floor(cols * 0.38);
+    if (isBlueBrick && row === totalRows - 1) return '#8db4c8';
+    // Vary terracotta slightly for texture
+    const variants = ['#C1440E','#b83d0d','#c94c14','#bf4110','#c84810'];
+    return variants[(row * 7 + col * 3) % variants.length];
+  }
+
+  function draw(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const elapsed = timestamp - startTime;
+    progress = Math.min(elapsed / DURATION, 1);
+
+    ctx.clearRect(0, 0, W, H);
+
+    const filledRows = Math.ceil(progress * rows);
+
+    for (let r = 0; r < filledRows; r++) {
+      const rowY = H - (r + 1) * STRIDE_H; // build from bottom
+      const offset = (r % 2 === 0) ? 0 : STRIDE_W / 2;
+
+      for (let c = -1; c < cols + 1; c++) {
+        const brickX = c * STRIDE_W - offset;
+        const brickY = rowY;
+
+        // slide-in animation: bricks from left on even rows, right on odd
+        let slideProgress = 1;
+        if (r === filledRows - 1) {
+          // current row — animate in
+          const rowFraction = (progress * rows) - (filledRows - 1);
+          slideProgress = Math.min(rowFraction * 2.5, 1);
+          // ease out cubic
+          slideProgress = 1 - Math.pow(1 - slideProgress, 3);
+        }
+
+        const slideX = r % 2 === 0
+          ? (1 - slideProgress) * (-W * 0.3)
+          : (1 - slideProgress) * (W * 0.3);
+
+        const brickXFinal = brickX + slideX;
+
+        // Mortar background
+        ctx.fillStyle = '#d6cfc4';
+        ctx.fillRect(brickXFinal, brickY, BRICK_W + MORTAR, BRICK_H + MORTAR);
+
+        // Brick face
+        ctx.fillStyle = brickColor(r, c, filledRows);
+        ctx.fillRect(brickXFinal, brickY, BRICK_W, BRICK_H);
+
+        // Subtle top highlight
+        ctx.fillStyle = 'rgba(255,255,255,0.06)';
+        ctx.fillRect(brickXFinal, brickY, BRICK_W, 3);
+
+        // Frog (indent at top center)
+        ctx.fillStyle = 'rgba(0,0,0,0.08)';
+        ctx.fillRect(brickXFinal + BRICK_W * 0.3, brickY + 2, BRICK_W * 0.4, 5);
+      }
+    }
+
+    // Update pct
+    pctEl.textContent = Math.round(progress * 100) + '%';
+
+    if (progress < 1) {
+      animFrame = requestAnimationFrame(draw);
+    } else {
+      // Snapshot canvas into wall panel, hide canvas, then slide up
+      setTimeout(() => {
+        const imgData = canvas.toDataURL('image/jpeg', 0.85);
+        wallPanel.style.backgroundImage = `url(${imgData})`;
+        wallPanel.style.backgroundSize = `${W}px ${H}px`;
+        wallPanel.style.backgroundPosition = 'center center';
+
+        // Hide the canvas so page shows through as panel lifts
+        canvas.style.display = 'none';
+        loader.style.background = 'transparent';
+
+        loader.classList.add('reveal');
+
+        setTimeout(() => {
+          loader.classList.add('done');
+          loader.style.display = 'none';
+          document.body.classList.remove('loading-active');
+        }, 1150);
+      }, 180);
+    }
+  }
+
+  // short delay so fonts load
+  setTimeout(() => requestAnimationFrame(draw), 300);
+})();
+
+// ─── TWEAKS ─────────────────────────────────────────────
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "primaryColor": "#1B4332",
+  "accentColor": "#C1440E",
+  "bgColor": "#F5F0E8",
+  "showStats": true
+}/*EDITMODE-END*/;
+
+let tweaks = { ...TWEAK_DEFAULTS };
+
+function applyTweaks(t) {
+  document.documentElement.style.setProperty('--green', t.primaryColor);
+  document.documentElement.style.setProperty('--terracotta', t.accentColor);
+  document.documentElement.style.setProperty('--sand', t.bgColor);
+  document.getElementById('stats').style.display = t.showStats ? '' : 'none';
+}
+
+applyTweaks(tweaks);
+
+// Tweak panel
+let panelVisible = false;
+const panel = document.createElement('div');
+panel.id = 'tweak-panel';
+panel.style.cssText = `
+  position:fixed; bottom:24px; right:24px; z-index:999;
+  background:#fff; border:1px solid #ddd; padding:20px 24px;
+  width:260px; display:none; box-shadow:0 4px 24px rgba(0,0,0,0.12);
+  font-family:Lato,sans-serif;
+`;
+panel.innerHTML = `
+  <div style="font-weight:700;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:#2C2C2C;margin-bottom:16px;">Tweaks</div>
+  <label style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#8C8880;display:block;margin-bottom:4px;">Brand Green</label>
+  <input type="color" id="tw-green" value="${tweaks.primaryColor}" style="width:100%;height:32px;border:1px solid #ddd;cursor:pointer;margin-bottom:12px;">
+  <label style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#8C8880;display:block;margin-bottom:4px;">Accent / Terracotta</label>
+  <input type="color" id="tw-terra" value="${tweaks.accentColor}" style="width:100%;height:32px;border:1px solid #ddd;cursor:pointer;margin-bottom:12px;">
+  <label style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#8C8880;display:block;margin-bottom:4px;">Page Background</label>
+  <input type="color" id="tw-bg" value="${tweaks.bgColor}" style="width:100%;height:32px;border:1px solid #ddd;cursor:pointer;margin-bottom:16px;">
+  <label style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#8C8880;display:flex;align-items:center;gap:8px;cursor:pointer;">
+    <input type="checkbox" id="tw-stats" ${tweaks.showStats ? 'checked' : ''}> Show Stats Bar
+  </label>
+`;
+document.body.appendChild(panel);
+
+panel.querySelector('#tw-green').addEventListener('input', e => {
+  tweaks.primaryColor = e.target.value;
+  applyTweaks(tweaks);
+  window.parent.postMessage({type:'__edit_mode_set_keys', edits: tweaks}, '*');
+});
+panel.querySelector('#tw-terra').addEventListener('input', e => {
+  tweaks.accentColor = e.target.value;
+  applyTweaks(tweaks);
+  window.parent.postMessage({type:'__edit_mode_set_keys', edits: tweaks}, '*');
+});
+panel.querySelector('#tw-bg').addEventListener('input', e => {
+  tweaks.bgColor = e.target.value;
+  applyTweaks(tweaks);
+  window.parent.postMessage({type:'__edit_mode_set_keys', edits: tweaks}, '*');
+});
+panel.querySelector('#tw-stats').addEventListener('change', e => {
+  tweaks.showStats = e.target.checked;
+  applyTweaks(tweaks);
+  window.parent.postMessage({type:'__edit_mode_set_keys', edits: tweaks}, '*');
+});
+
+window.addEventListener('message', e => {
+  if (e.data?.type === '__activate_edit_mode') { panel.style.display = 'block'; }
+  if (e.data?.type === '__deactivate_edit_mode') { panel.style.display = 'none'; }
+});
+window.parent.postMessage({type:'__edit_mode_available'}, '*');
+</script>
+</body>
+</html>

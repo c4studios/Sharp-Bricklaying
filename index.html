@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sharp Bricklaying — Perth's Sharpest Bricklayers</title>
+
+  <!-- SEO Meta -->
+  <meta name="description" content="Sharp Bricklaying — Perth's premium residential bricklayers. New builds, extensions, and feature walls. Get a free quote today.">
+  <meta name="keywords" content="bricklaying Perth, bricklayer Perth WA, residential bricklaying, Sharp Bricklaying, brick homes Perth, feature walls, extensions">
+  <meta name="author" content="Sharp Bricklaying">
+  <link rel="canonical" href="https://sharpbricklaying.net/">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://sharpbricklaying.net/">
+  <meta property="og:title" content="Sharp Bricklaying — Perth's Sharpest Bricklayers">
+  <meta property="og:description" content="Premium residential bricklaying trusted by Perth's finest builders. New builds, extensions, and feature walls. Built sharp. Built to last.">
+  <meta property="og:image" content="https://sharpbricklaying.net/images/hero-bg.jpg">
+  <meta property="og:locale" content="en_AU">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sharp Bricklaying — Perth's Sharpest Bricklayers">
+  <meta name="twitter:description" content="Premium residential bricklaying trusted by Perth's finest builders. Built sharp. Built to last.">
+  <meta name="twitter:image" content="https://sharpbricklaying.net/images/hero-bg.jpg">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+
+  <!-- Web App Manifest & Theme -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1B4332">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Sharp Bricklaying">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- Preload hero image -->
+  <link rel="preload" as="image" href="images/hero-bg.jpg">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- No-JS fallback: make sections visible if JS is blocked -->
+  <noscript><style>section { opacity: 1 !important; transform: none !important; }</style></noscript>
+
+  <!-- Structured Data: LocalBusiness -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Sharp Bricklaying",
+    "description": "Premium residential bricklaying serving Perth's finest builders. New builds, extensions, and feature walls.",
+    "url": "https://sharpbricklaying.net",
+    "email": "luke@sharpbricklaying.com.au",
+    "image": "https://sharpbricklaying.net/images/hero-bg.jpg",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Perth",
+      "addressRegion": "WA",
+      "addressCountry": "AU"
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "Perth"
+    },
+    "priceRange": "$$",
+    "openingHours": "Mo-Fr 07:00-17:00",
+    "sameAs": [
+      "https://www.instagram.com/sharpbricklaying",
+      "https://www.facebook.com/p/Sharp-Bricklaying-61580318786557/"
+    ]
+  }
+  </script>
+</head>
+<body class="loading-active">
+
+<!-- Skip to content (accessibility) -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  LOADING SCREEN                                    -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="loader" aria-hidden="true">
+  <canvas id="brick-canvas"></canvas>
+  <div class="wall-panel" id="wall-panel">
+    <div class="loader-brand">
+      <div class="loader-logo-backdrop">
+        <img src="images/logo-dark.png" alt="Sharp Bricklaying" class="loader-logo" width="100" height="100">
+      </div>
+      <div class="loader-sub">Bespoke &amp; Architectural Brickwork | High-End Residential | Rennovations.</div>
+      <div class="loader-pct" id="loader-pct">0%</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  NAVIGATION                                        -->
+<!-- ═══════════════════════════════════════════════════ -->
+<nav id="nav" aria-label="Main navigation">
+  <a href="/" class="nav-logo" aria-label="Sharp Bricklaying — Home">
+    <img src="images/logo-dark.png" alt="Sharp Bricklaying" width="48" height="48">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#before-after">The Process</a></li>
+    <li><a href="#press">Press</a></li>
+    <li class="nav-divider" role="separator"></li>
+    <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+  </ul>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu Overlay -->
+<div class="mobile-menu" id="mobile-menu" role="dialog" aria-label="Mobile navigation">
+  <a href="#services">Services</a>
+  <a href="#about">About</a>
+  <a href="#gallery">Gallery</a>
+  <a href="#before-after">The Process</a>
+  <a href="#press">Press</a>
+  <a href="#contact" class="mobile-cta">Get a Quote</a>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  HERO                                              -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="hero" style="opacity:1;transform:none;">
+  <!-- Still image fallback (always present, sits behind slides) -->
+  <div class="hero-bg" id="hero-bg"></div>
+
+  <!-- Image carousel — JS crossfades through aerial shots -->
+  <img class="hero-slide" src="images/hero-aerial-01.jpeg" alt="Aerial drone view of Sharp Bricklaying residential new build under construction, Perth WA" loading="eager">
+  <img class="hero-slide" src="images/hero-aerial-02.jpeg" alt="Aerial view of brick home under construction, Perth WA" loading="lazy">
+  <img class="hero-slide" src="images/hero-aerial-03.jpeg" alt="Aerial view of brick home under construction, Perth WA" loading="lazy">
+  <img class="hero-slide" src="images/hero-aerial-04.jpeg" alt="Aerial view of brick home under construction, Perth WA" loading="lazy">
+  <img class="hero-slide" src="images/hero-aerial-05.jpeg" alt="Aerial view of brick home under construction, Perth WA" loading="lazy">
+  <img class="hero-slide" src="images/hero-aerial-06.jpeg" alt="Aerial view of brick home under construction, Perth WA" loading="lazy">
+  <img class="hero-slide" src="images/hero-aerial-07.jpeg" alt="Aerial view of brick home under construction, Perth WA" loading="lazy">
+  <img class="hero-slide" src="images/hero-aerial-08.jpeg" alt="Aerial view of brick home under construction, Perth WA" loading="lazy">
+  <img class="hero-slide" src="images/hero-aerial-09.jpeg" alt="Aerial view of brick home under construction, Perth WA" loading="lazy">
+  <img class="hero-slide" src="images/hero-aerial-10.jpeg" alt="Aerial view of brick home under construction, Perth WA" loading="lazy">
+  <img class="hero-slide" src="images/hero-aerial-11.jpeg" alt="Aerial view of brick home under construction, Perth WA" loading="lazy">
+
+  <div class="hero-gradient"></div>
+  <div class="hero-content" id="main-content">
+    <div class="hero-eyebrow">Perth, Western Australia</div>
+    <h1 class="hero-heading">Built to a<br>Higher<br>Standard</h1>
+    <p class="hero-sub">Specialising in bespoke and architectural residential builds. With a strong focus on detail throughout the entire build, not just the visible finish.</p>
+    <div class="hero-ctas">
+      <a href="#gallery" class="btn-primary">See Our Work</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+</section>
+
+<div class="brick-divider" role="presentation"></div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  SERVICES                                          -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="services">
+  <div class="services-header">
+    <div class="section-label">What We Do</div>
+    <h2 class="section-heading">Our Services</h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        <path d="M6 38h36M6 38V22l18-14 18 14v16"/>
+        <rect x="18" y="28" width="12" height="10" rx="0"/>
+        <path d="M14 22v16M34 22v16"/>
+      </svg>
+      <h3>Residential New Builds</h3>
+      <p>Sharp Bricklaying specialises in high-end residential brickwork, working closely with builders and developers across Perth to deliver our standard on every project. Our work spans from large-scale residential builds to bespoke architectural homes with a strong focus on minor details and consistency throughout.</p>
+      <a href="#contact" class="service-link" data-service="New Home">Enquire Now <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        <rect x="6" y="28" width="20" height="14" rx="0"/>
+        <path d="M26 42V20l16-6v28"/>
+        <path d="M6 28V16l20-8"/>
+        <path d="M26 28h16"/>
+      </svg>
+      <h3>Renovations &amp; Extensions</h3>
+      <p>Sharp Bricklaying delivers detailed brickwork for renovations and extensions, ensuring all new work integrates seamlessly with your existing home. From feature walls and outdoor areas to full home extensions, we focus on achieving a result that feels cohesive and well considered.</p>
+      <a href="#contact" class="service-link" data-service="Extension / Renovation">Enquire Now <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        <rect x="6" y="8" width="36" height="10" rx="0"/>
+        <rect x="6" y="22" width="36" height="10" rx="0"/>
+        <rect x="6" y="36" width="36" height="6" rx="0"/>
+        <line x1="16" y1="8" x2="16" y2="18"/>
+        <line x1="26" y1="8" x2="26" y2="18"/>
+        <line x1="21" y1="22" x2="21" y2="32"/>
+        <line x1="31" y1="22" x2="31" y2="32"/>
+      </svg>
+      <h3>Feature Walls &amp; Custom Work</h3>
+      <p>Statement brickwork, alfresco feature walls, retaining walls, and bespoke decorative patterns. This is where craft meets design — intricate work that adds real character and lasting value to any home.</p>
+      <a href="#contact" class="service-link" data-service="Feature Wall">Enquire Now <span aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  ABOUT                                             -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="about">
+  <div class="about-image-col">
+    <div class="about-photo-wrap">
+      <img src="images/about-onsite.jpg" alt="Luke Sharp and the Sharp Bricklaying team working on site in Perth" loading="lazy" width="600" height="800">
+      <div class="about-brick-watermark" aria-hidden="true"></div>
+      <div class="about-years">
+        <strong>10+</strong>
+        <span>Yrs Experience</span>
+      </div>
+    </div>
+    <div class="about-accent-block" aria-hidden="true"></div>
+  </div>
+  <div class="about-text">
+    <div class="section-label">The Craftsman</div>
+    <h2>Built by Hand.<br>Every Time.</h2>
+    <p>Luke Sharp started Sharp Bricklaying with a simple belief: if your name's going on a wall, that wall should be something to be proud of. Based in Perth, WA, Luke and his team bring the same care to a modest extension as they do to a multi-million dollar prestige build.</p>
+    <p>That reputation has earned Sharp Bricklaying a trusted place alongside some of Perth's most respected residential builders — because the work is consistently right.</p>
+    <div class="about-pullquote">
+      <p>"We work with some of the biggest builders in Perth — and they keep calling back."</p>
+    </div>
+    <p>Sharp Bricklaying has also been featured on national television, bringing a bit of Perth's finest brickwork to screens across the country.</p>
+    <a href="#contact" class="btn-primary" style="margin-top:8px;display:inline-block;">Work With Us</a>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  SERVICE GALLERY                                   -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="gallery">
+
+  <!-- Header -->
+  <div class="gallery-header">
+    <div class="section-label">Services in Action</div>
+    <h2 class="section-heading">Every Detail, Every Trade</h2>
+    <p class="gallery-intro-text">From the first course to custom circular features — Sharp Bricklaying covers the full range of residential brickwork across Perth. This is what the work actually looks like.</p>
+  </div>
+
+  <!-- 01 — Unique Design Features -->
+  <div class="gallery-group">
+    <div class="gallery-group-meta">
+      <span class="gallery-group-num">01</span>
+      <div>
+        <h3 class="gallery-group-heading">Unique Design Features</h3>
+        <p class="gallery-group-desc">Circular brick features demand a bricklayer who can set out curves, calculate radiating courses, and cut to angle — then build them true from the ground up. Here’s that process, start to finish.</p>
+      </div>
+    </div>
+    <div class="gallery-progression">
+      <div class="gallery-prog-step">
+        <img src="images/gallery-circle-1.jpeg" alt="Stage 1 of circular brick window feature — initial setting out and first courses" loading="lazy">
+        <div class="gallery-prog-label">Stage 1</div>
+      </div>
+      <div class="gallery-prog-arrow" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+      <div class="gallery-prog-step">
+        <img src="images/gallery-circle-2.jpeg" alt="Stage 2 of circular brick window feature — circle form rising, courses radiating outward" loading="lazy">
+        <div class="gallery-prog-label">Stage 2</div>
+      </div>
+      <div class="gallery-prog-arrow" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+      <div class="gallery-prog-step">
+        <img src="images/gallery-circle-3.jpeg" alt="Completed circular brick window feature on a Perth residential new build" loading="lazy">
+        <div class="gallery-prog-label">Complete</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gallery-group-divider" aria-hidden="true"></div>
+
+  <!-- 02 — Doorways &amp; Openings -->
+  <div class="gallery-group">
+    <div class="gallery-group-meta">
+      <span class="gallery-group-num">02</span>
+      <div>
+        <h3 class="gallery-group-heading">Doorways &amp; Openings</h3>
+        <p class="gallery-group-desc">Plumb jambs, level lintels, square reveals — every opening in a brick wall is a chance to show your standard. Built tight and built straight, every time.</p>
+      </div>
+    </div>
+    <div class="gallery-2col">
+      <div class="gallery-item">
+        <img src="images/gallery-doorways-1.jpeg" alt="Brick doorway openings on a new Perth residential build, plumb jambs and level lintels" loading="lazy">
+      </div>
+      <div class="gallery-item">
+        <img src="images/gallery-doorways-2.jpeg" alt="Brick doorway and opening detail on a residential new build, Perth WA" loading="lazy">
+      </div>
+    </div>
+  </div>
+
+  <div class="gallery-group-divider" aria-hidden="true"></div>
+
+  <!-- 03–06 — Service quad: Feature Brickwork / Flooring / Polishing / Stairs -->
+  <div class="gallery-4quad">
+    <div class="gallery-quad-item">
+      <div class="gallery-quad-label">
+        <span class="gallery-quad-num">03</span>
+        <div>
+          <h3 class="gallery-group-heading">Feature Brickwork</h3>
+          <p class="gallery-group-desc">Decorative walls, outdoor features and landscaping brickwork that go beyond the standard build.</p>
+        </div>
+      </div>
+      <div class="gallery-item--sq">
+        <img src="images/gallery-features.jpeg" alt="Decorative feature brickwork on a Perth residential property" loading="lazy">
+      </div>
+    </div>
+    <div class="gallery-quad-item">
+      <div class="gallery-quad-label">
+        <span class="gallery-quad-num">04</span>
+        <div>
+          <h3 class="gallery-group-heading">Brick Paving &amp; Flooring</h3>
+          <p class="gallery-group-desc">Herringbone, running bond or custom patterns — installed level and true for entries, alfresco areas and pathways.</p>
+        </div>
+      </div>
+      <div class="gallery-item--sq" style="height: 540px;">
+        <img src="images/gallery-flooring.jpeg" alt="Brick paving and flooring installed at a Perth residential property" loading="lazy" style="object-position: center 58%;">
+      </div>
+    </div>
+    <div class="gallery-quad-item">
+      <div class="gallery-quad-label">
+        <span class="gallery-quad-num">05</span>
+        <div>
+          <h3 class="gallery-group-heading">Polished Finishes</h3>
+          <p class="gallery-group-desc">The finishing detail that separates a solid build from a premium product — clean joints, tight bonds, consistent coursing throughout.</p>
+        </div>
+      </div>
+      <div class="gallery-item--sq">
+        <img src="images/gallery-polishing.jpeg" alt="Polished brick finish and detailed brickwork on a Perth residential build" loading="lazy">
+      </div>
+    </div>
+    <div class="gallery-quad-item">
+      <div class="gallery-quad-label">
+        <span class="gallery-quad-num">06</span>
+        <div>
+          <h3 class="gallery-group-heading">Stairs &amp; Steps</h3>
+          <p class="gallery-group-desc">Brick steps and retaining stairs built to last — correctly bonded, properly set out, built with longevity in mind.</p>
+        </div>
+      </div>
+      <div class="gallery-item--sq" style="height: 540px;">
+        <img src="images/gallery-stairs.jpeg" alt="Brick stairs and retaining steps under construction, Perth WA" loading="lazy" style="object-position: center 45%;">
+      </div>
+    </div>
+  </div>
+
+  <div class="gallery-group-divider" aria-hidden="true"></div>
+
+  <!-- 07 — Clean Brickwork -->
+  <div class="gallery-group">
+    <div class="gallery-group-meta">
+      <span class="gallery-group-num">07</span>
+      <div>
+        <h3 class="gallery-group-heading">Clean Brickwork</h3>
+        <p class="gallery-group-desc">Solid. Consistent. Every course level, every corner plumb, every joint tight. The standard Sharp Bricklaying lays on every residential new build in Perth.</p>
+      </div>
+    </div>
+    <div class="gallery-mosaic">
+      <div class="gallery-mosaic-item"><img src="images/gallery-clean-1.jpeg" alt="Sharp Bricklaying residential new build under construction, Perth WA" loading="lazy"></div>
+      <div class="gallery-mosaic-item"><img src="images/gallery-clean-2.jpeg" alt="Red brick new home shell under construction, Perth WA" loading="lazy"></div>
+      <div class="gallery-mosaic-item"><img src="images/gallery-clean-3.jpeg" alt="Brick construction progress on a Perth residential site" loading="lazy"></div>
+      <div class="gallery-mosaic-item"><img src="images/gallery-clean-4.jpeg" alt="Single-storey brick home under construction showing double garage and multiple openings, Perth WA" loading="lazy"></div>
+      <div class="gallery-mosaic-item"><img src="images/gallery-clean-5.jpeg" alt="New brick home front elevation with alfresco brick piers and steel lintels, Perth WA" loading="lazy"></div>
+      <div class="gallery-mosaic-item"><img src="images/gallery-clean-6.jpeg" alt="Interior view through wide opening of a new brick home under construction, Perth WA" loading="lazy"></div>
+      <div class="gallery-mosaic-item"><img src="images/gallery-clean-7.jpeg" alt="Internal corridor view through brick rooms of a new home under construction, Perth WA" loading="lazy"></div>
+      <div class="gallery-mosaic-item"><img src="images/gallery-clean-8.jpeg" alt="Dramatic angle of rising gable brick wall against clear blue sky, Perth WA" loading="lazy"></div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  BEFORE & AFTER                                    -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="before-after">
+  <div class="ba-header">
+    <div class="section-label">The Process</div>
+    <h2 class="section-heading">From First Course to Final Cut</h2>
+    <p class="ba-intro">Every wall starts somewhere. This is what the work looks like in progress — and what it looks like when it's done right.</p>
+  </div>
+  <div class="ba-grid">
+    <div class="ba-card ba-card--before">
+      <div class="ba-img-wrap">
+        <img src="images/Before and after/cut 1.jpeg" alt="Brickwork in progress — cut bricks staged and wall mid-construction" loading="lazy" width="900" height="700">
+        <div class="ba-tag">In Progress</div>
+      </div>
+      <div class="ba-caption">
+        <h4>The Cut</h4>
+        <p>Bricks cut and staged precisely to spec. Every cut represents a decision — angle, dimension, bond pattern — made before a single mortar joint is laid.</p>
+      </div>
+    </div>
+    <div class="ba-divider-arrow" aria-hidden="true">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 20h24M24 12l8 8-8 8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="ba-card ba-card--after">
+      <div class="ba-img-wrap">
+        <img src="images/Before and after/cut2.jpeg" alt="Finished brickwork — clean laid wall with tight joints" loading="lazy" width="900" height="700">
+        <div class="ba-tag ba-tag--after">Finished</div>
+      </div>
+      <div class="ba-caption">
+        <h4>The Result</h4>
+        <p>Clean joints, tight bond, level runs. The finished wall is the proof. This is the standard on every Sharp Bricklaying job — no matter the size.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  PRESS                                             -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="press">
+  <div class="section-label">As Seen On</div>
+  <h2 class="section-heading" style="text-align:center;">National Television</h2>
+  <div class="press-logos">
+    <div class="press-logo">
+      <img src="images/logo-channel9.png" alt="Channel 9 logo" width="100" height="100" loading="lazy">
+      <small>Channel Nine</small>
+    </div>
+    <div class="press-logo">
+      <img src="images/logo-channel10.png" alt="Channel 10 logo" width="100" height="100" loading="lazy">
+      <small>Channel Ten</small>
+    </div>
+  </div>
+  <p class="press-quote">Sharp Bricklaying featured in a recent national build special — Perth's craft brickwork on screens across the country.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  CONTACT                                           -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="contact">
+  <div class="contact-text">
+    <div class="section-label" style="color:rgba(255,255,255,0.5);">
+      Get in Touch
+    </div>
+    <h2>Ready to Build Something Sharp?</h2>
+    <p>Get in touch for a quote on your next project — new home, extension, or feature wall. Luke personally handles all enquiries.</p>
+    <div class="contact-details">
+      <a href="mailto:luke@sharpbricklaying.com.au" class="contact-detail">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="0"/><path d="M2 4l10 9 10-9"/></svg>
+        luke@sharpbricklaying.com.au
+      </a>
+      <a href="tel:+61431052354" class="contact-detail">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6.6 10.8a15.7 15.7 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.5 11.5 0 0 0 3.6.6 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.5 11.5 0 0 0 .6 3.6 1 1 0 0 1-.25 1L6.6 10.8z"/></svg>
+        +61 431 052 354
+      </a>
+      <span class="contact-detail">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Perth, Western Australia
+      </span>
+    </div>
+    <div class="contact-social">
+      <a href="https://www.instagram.com/sharpbricklaying" target="_blank" rel="noopener noreferrer" class="social-btn" title="Instagram" aria-label="Visit Sharp Bricklaying on Instagram">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="https://www.facebook.com/p/Sharp-Bricklaying-61580318786557/" target="_blank" rel="noopener noreferrer" class="social-btn" title="Facebook" aria-label="Visit Sharp Bricklaying on Facebook">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <form class="contact-form" id="contact-form" action="#" method="POST" novalidate>
+    <!-- Honeypot field for spam protection -->
+    <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="form-name">Name <span aria-hidden="true">*</span></label>
+        <input type="text" id="form-name" name="name" placeholder="Your name" required autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label for="form-phone">Phone</label>
+        <input type="tel" id="form-phone" name="phone" placeholder="04XX XXX XXX" autocomplete="tel">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="form-email">Email <span aria-hidden="true">*</span></label>
+      <input type="email" id="form-email" name="email" placeholder="your@email.com" required autocomplete="email">
+    </div>
+    <div class="form-group">
+      <label for="form-project">Project Type</label>
+      <select id="form-project" name="project_type">
+        <option value="" disabled selected>Select project type</option>
+        <option value="New Home">New Home</option>
+        <option value="Extension / Renovation">Extension / Renovation</option>
+        <option value="Feature Wall">Feature Wall</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="form-message">Message <span aria-hidden="true">*</span></label>
+      <textarea id="form-message" name="message" placeholder="Tell us about your project..." required></textarea>
+    </div>
+    <div id="form-status" class="form-status" role="alert" aria-live="polite"></div>
+    <button type="submit" class="btn-terracotta">Send Enquiry</button>
+  </form>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  FOOTER                                            -->
+<!-- ═══════════════════════════════════════════════════ -->
+<footer id="footer">
+  <div class="footer-texture" aria-hidden="true"></div>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="images/logo-green-bg.jpg" alt="Sharp Bricklaying" width="120" height="64" loading="lazy">
+      <div class="footer-tagline">Built Sharp. Built to Last.</div>
+      <p class="footer-desc">Premium residential bricklaying serving Perth's finest builders. Sharp by name, sharp by nature.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="#portfolio">Our Work</a></li>
+        <li><a href="#before-after">The Process</a></li>
+        <li><a href="#about">About Luke</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#press">Press</a></li>
+        <li><a href="#contact">Get a Quote</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="mailto:luke@sharpbricklaying.com.au">luke@sharpbricklaying.com.au</a></li>
+        <li><a href="https://www.instagram.com/sharpbricklaying" target="_blank" rel="noopener noreferrer">@sharpbricklaying</a></li>
+        <li><a href="https://www.facebook.com/p/Sharp-Bricklaying-61580318786557/" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+      </ul>
+      <div class="footer-social" style="margin-top:20px;">
+        <a href="https://www.instagram.com/sharpbricklaying" target="_blank" rel="noopener noreferrer" class="footer-social-btn" aria-label="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://www.facebook.com/p/Sharp-Bricklaying-61580318786557/" target="_blank" rel="noopener noreferrer" class="footer-social-btn" aria-label="Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; <span id="footer-year">2026</span> Sharp Bricklaying. Perth, WA. All rights reserved. &nbsp;|&nbsp; <a href="privacy.html">Privacy Policy</a></p>
+    <p style="color:rgba(255,255,255,0.2);">ABN: Available on request</p>
+  </div>
+</footer>
+
+<!-- Back to Top Button -->
+<button id="back-to-top" class="back-to-top" aria-label="Back to top" title="Back to top">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<!-- Scripts (deferred for performance) -->
+<script src="js/main.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+# Netlify Redirects
+# 404 handling
+/*    /404.html   404
+
+# Force HTTPS
+http://sharpbricklaying.net/*  https://sharpbricklaying.net/:splat  301!
+http://www.sharpbricklaying.net/*  https://sharpbricklaying.net/:splat  301!
+https://www.sharpbricklaying.net/*  https://sharpbricklaying.net/:splat  301!
