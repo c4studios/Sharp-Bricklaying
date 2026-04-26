@@ -1,5 +1,5 @@
-import { gsap } from '../node_modules/gsap/index.js';
-import { C4_WORDMARK_MORPH_PAIRS } from '../src/components/c4-footer-credit/c4WordmarkData.js';
+import { gsap } from './vendor/gsap/index.js';
+import { C4_WORDMARK_MORPH_PAIRS } from './vendor/c4/c4WordmarkData.js';
 
 const SIZES = { small: 28, default: 36, large: 48, xl: 72 };
 const FULL_VIEWBOX = '50 100 880 400';
