@@ -1367,6 +1367,29 @@ section[id] { scroll-margin-top: 80px; }
 
 .footer-bottom a:hover { color: rgba(255,255,255,0.5); }
 
+.c4-footer-credit {
+  min-width: 132px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  touch-action: manipulation;
+}
+
+.c4-footer-credit__fallback {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.34);
+  white-space: nowrap;
+}
+
+.c4-footer-credit[data-c4-ready="true"] .c4-footer-credit__fallback {
+  display: none;
+}
+
 /* ─── DIVIDER ─── */
 .brick-divider {
   height: 4px;
@@ -1968,6 +1991,10 @@ section[id] { scroll-margin-top: 80px; }
     grid-row: span 1;
   }
   .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+  .c4-footer-credit {
+    min-width: 150px;
+    min-height: 52px;
+  }
   .footer-bottom p { font-size: 11px; }
 }
 
