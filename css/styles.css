@@ -1255,9 +1255,10 @@ section[id] { scroll-margin-top: 80px; }
 }
 
 .footer-brand img {
-  height: 64px;
+  height: clamp(120px, 11vw, 180px);
   width: auto;
-  margin-bottom: 20px;
+  max-width: min(360px, 100%);
+  margin-bottom: 24px;
   display: block;
 }
 
@@ -1776,10 +1777,12 @@ section[id] { scroll-margin-top: 80px; }
   color: var(--charcoal);
   cursor: pointer;
   display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 48px;
-  padding: 10px 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 3px;
+  min-height: 62px;
+  padding: 11px 18px;
   font-family: 'Lato', sans-serif;
   font-size: 12px;
   font-weight: 800;
@@ -1788,12 +1791,20 @@ section[id] { scroll-margin-top: 80px; }
   transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
 }
 
-.gallery-tab span {
+.gallery-tab-title {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 900;
-  letter-spacing: 0;
+  letter-spacing: 0.14em;
+  line-height: 1.05;
+}
+
+.gallery-tab-suburb {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.22em;
   line-height: 1;
+  opacity: 0.62;
 }
 
 .gallery-tab:hover {
@@ -1805,6 +1816,10 @@ section[id] { scroll-margin-top: 80px; }
   background: var(--green);
   border-color: var(--green);
   color: #fff;
+}
+
+.gallery-tab.active .gallery-tab-suburb {
+  opacity: 0.78;
 }
 
 .gallery-job-panel[hidden] {
@@ -1952,7 +1967,7 @@ section[id] { scroll-margin-top: 80px; }
     gap: 8px;
   }
   .gallery-tab {
-    justify-content: flex-start;
+    justify-content: center;
     width: 100%;
   }
   .job-media-grid {
