@@ -1,6 +1,6 @@
 # C4 Footer Credit — Portable Component
 
-Animated C4 Studios footer-credit badge extracted from [c4studios.com](https://c4studios.com).
+Animated C4 Studios footer-credit badge extracted from [c4studios.com.au](https://c4studios.com.au).
 
 ## Files
 
@@ -50,7 +50,7 @@ import C4FooterCredit from './components/c4-footer-credit/C4FooterCredit';
 ```jsx
 <footer>
   <C4FooterCredit
-    href="https://c4studios.com"
+    href="https://c4studios.com.au"
     label="Designed with C4 Studios"
     size={48}
     showText={true}
@@ -86,7 +86,7 @@ import C4FooterCredit from './components/c4-footer-credit/C4FooterCredit';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `href` | `string` | `'https://c4studios.com'` | Link destination |
+| `href` | `string` | `'https://c4studios.com.au'` | Link destination |
 | `label` | `string` | `'Designed by C4 Studios'` | Credit text shown below logo + used as `aria-label` |
 | `size` | `number \| string` | `36` | Logo height in px, or named size: `'small'` (28), `'default'` (36), `'large'` (48), `'xl'` (72) |
 | `className` | `string` | `''` | Additional CSS class(es) on the root `<a>` element |
