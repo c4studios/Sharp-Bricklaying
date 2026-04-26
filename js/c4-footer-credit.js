@@ -8,8 +8,8 @@ const LOCKUP_TRANSFORM = 'translate(18 -273) scale(1.5)';
 
 const COLOURS = {
   dormant: { fourBody: '#b8b9ba', fourArm: '#c5c6c7', cArc: '#e6e4e2' },
-  mono: { fourBody: '#414243', fourArm: '#6c6d6d', cArc: '#e6e4e2', text: '#1a1a1b' },
-  colour: { fourBody: '#a30000', fourArm: '#22632f', cArc: '#f3f2f3', text: '#1a1a1b' },
+  mono: { fourBody: '#414243', fourArm: '#6c6d6d', cArc: '#e6e4e2', text: '#f3f2f0' },
+  colour: { fourBody: '#a30000', fourArm: '#22632f', cArc: '#f3f2f3', text: '#f3f2f0' },
 };
 
 const FULL_UPRIGHT = {
@@ -164,7 +164,7 @@ function getColours(colorScheme) {
     mono.fourBody = '#9a9b9c';
     mono.fourArm = '#8a8b8c';
     mono.cArc = '#d0cecc';
-    mono.text = '#e8e6e3';
+    mono.text = '#f3f2f0';
   }
 
   return { dormant, mono, colour: COLOURS.colour };
