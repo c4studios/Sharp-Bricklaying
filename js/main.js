@@ -432,6 +432,48 @@
   }
 
   // ─── CURRENT YEAR IN FOOTER ───────────────────────────
+  // Job gallery tabs
+  document.querySelectorAll('[data-job-tabs]').forEach(function (tabSet) {
+    var tabs = Array.prototype.slice.call(tabSet.querySelectorAll('[data-job-tab]'));
+    var panels = Array.prototype.slice.call(tabSet.querySelectorAll('.gallery-job-panel'));
+    if (!tabs.length || !panels.length) return;
+
+    function activateTab(nextTab) {
+      var panelId = nextTab.getAttribute('data-job-tab');
+
+      tabs.forEach(function (tab) {
+        var isActive = tab === nextTab;
+        tab.classList.toggle('active', isActive);
+        tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        tab.setAttribute('tabindex', isActive ? '0' : '-1');
+      });
+
+      panels.forEach(function (panel) {
+        var isActive = panel.id === panelId;
+        panel.classList.toggle('active', isActive);
+        panel.hidden = !isActive;
+      });
+    }
+
+    tabs.forEach(function (tab, index) {
+      tab.addEventListener('click', function () {
+        activateTab(tab);
+      });
+
+      tab.addEventListener('keydown', function (e) {
+        var nextIndex = index;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextIndex = (index + 1) % tabs.length;
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') nextIndex = (index - 1 + tabs.length) % tabs.length;
+        if (e.key === 'Home') nextIndex = 0;
+        if (e.key === 'End') nextIndex = tabs.length - 1;
+        if (nextIndex === index) return;
+        e.preventDefault();
+        activateTab(tabs[nextIndex]);
+        tabs[nextIndex].focus();
+      });
+    });
+  });
+
   var yearEl = document.getElementById('footer-year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
