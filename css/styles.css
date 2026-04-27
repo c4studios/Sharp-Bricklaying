@@ -1819,6 +1819,16 @@ body.lightbox-open {
   height: 100%;
 }
 
+.ba-card--contained .ba-img-wrap {
+  background: rgba(255,255,255,0.05);
+}
+
+.ba-card--contained .ba-img-wrap img {
+  object-fit: contain;
+  object-position: center;
+  background: rgba(19,32,27,0.28);
+}
+
 /* 2×2 service quad */
 .gallery-4quad {
   display: grid;
@@ -2113,6 +2123,9 @@ body.lightbox-open {
     grid-auto-rows: 220px;
   }
   .ba-card--stacked .ba-img-wrap img {
+    height: 100% !important;
+  }
+  .ba-card--contained .ba-img-wrap img {
     height: 100% !important;
   }
   #press { padding: 56px 32px; }
