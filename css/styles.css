@@ -1254,10 +1254,14 @@ section[id] { scroll-margin-top: 80px; }
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
+.footer-brand {
+  text-align: center;
+}
+
 .footer-brand img {
   width: min(620px, 100%);
   height: auto;
-  margin-bottom: 20px;
+  margin: 0 auto 20px;
   display: block;
 }
 
@@ -1275,7 +1279,6 @@ section[id] { scroll-margin-top: 80px; }
   font-size: 13px;
   color: rgba(255,255,255,0.5);
   line-height: 1.8;
-  max-width: 420px;
 }
 
 .footer-col h4 {
@@ -2133,7 +2136,7 @@ body.lightbox-open {
   #contact { padding: 64px 32px; grid-template-columns: 1fr; gap: 48px; }
   #footer { padding: 48px 32px 0; }
   .footer-grid { grid-template-columns: 1fr; gap: 40px; }
-  .footer-brand img { width: min(260px, 100%); }
+  .footer-brand img { width: min(260px, 100%); margin: 0 auto 20px; }
   #trusted-by { padding: 48px 32px; }
   .builders-grid { grid-template-columns: repeat(2, 1fr); }
   .portfolio-header { flex-direction: column; align-items: flex-start; gap: 24px; }
@@ -2231,6 +2234,7 @@ body.lightbox-open {
   }
   .footer-brand img {
     width: 160px;
+    margin: 0 auto 20px;
   }
   .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
   .footer-legal {
