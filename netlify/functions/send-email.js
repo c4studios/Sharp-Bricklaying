@@ -22,7 +22,7 @@ exports.handler = async function (event) {
   var name    = (body.name    || '').toString().trim().slice(0, 200);
   var email   = (body.email   || '').toString().trim().slice(0, 200);
   var phone   = (body.phone   || '').toString().trim().slice(0, 50);
-  var service = (body.service || '').toString().trim().slice(0, 100);
+  var service = (body.project_type || '').toString().trim().slice(0, 100);
   var message = (body.message || '').toString().trim().slice(0, 2000);
 
   // Basic server-side validation

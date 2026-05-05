@@ -262,7 +262,7 @@
         name:    (formData.get('name')    || '').toString().trim(),
         email:   (formData.get('email')   || '').toString().trim(),
         phone:   (formData.get('phone')   || '').toString().trim(),
-        service: (formData.get('service') || '').toString().trim(),
+        service: (formData.get('project_type') || '').toString().trim(),
         message: (formData.get('message') || '').toString().trim()
       };
 
