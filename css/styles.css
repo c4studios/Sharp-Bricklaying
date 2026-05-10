@@ -1975,6 +1975,10 @@ body.lightbox-open {
   grid-row: span 2;
 }
 
+.job-media-item--panorama {
+  grid-column: span 3;
+}
+
 .job-media-item img,
 .job-media-item video {
   width: 100%;
@@ -2228,6 +2232,9 @@ body.lightbox-open {
   .job-media-item:first-child {
     grid-column: span 1;
     grid-row: span 1;
+  }
+  .job-media-item--panorama {
+    grid-column: span 1;
   }
   .nav-logo img {
     height: 58px;
