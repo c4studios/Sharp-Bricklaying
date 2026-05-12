@@ -4,7 +4,8 @@
   "private": true,
   "description": "Sharp Bricklaying — Perth's Sharpest Bricklayers",
   "scripts": {
-    "dev": "npx serve@latest -l 3000"
+    "dev": "npx serve@latest -l 3000",
+    "test": "node scripts/validate-content.js"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

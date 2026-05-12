@@ -1,0 +1,114 @@
+const fs = require('fs');
+const path = require('path');
+
+const root = path.resolve(__dirname, '..');
+const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+
+function fail(message) {
+  throw new Error(message);
+}
+
+function assert(condition, message) {
+  if (!condition) fail(message);
+}
+
+function normalize(value) {
+  return value
+    .replace(/&rsquo;/g, "'")
+    .replace(/&lsquo;/g, "'")
+    .replace(/&ldquo;/g, '"')
+    .replace(/&rdquo;/g, '"')
+    .replace(/&amp;/g, '&')
+    .replace(/&mdash;/g, '-')
+    .replace(/&#8212;/g, '-')
+    .replace(/&#x2014;/g, '-')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function getPanel(panelId) {
+  const pattern = new RegExp(`<article class="gallery-job-panel[^"]*" id="${panelId}"[\\s\\S]*?(?=\\n    <article class="gallery-job-panel"|\\n  </div>\\n\\n</section>)`);
+  const match = html.match(pattern);
+  if (!match) fail(`Missing panel ${panelId}`);
+  return match[0];
+}
+
+function imageFiles(relativeDir) {
+  return fs
+    .readdirSync(path.join(root, relativeDir))
+    .filter((name) => /\.(jpe?g|png|webp)$/i.test(name))
+    .sort((a, b) => a.localeCompare(b));
+}
+
+function assertPanelHasFolder(panelId, relativeDir) {
+  const panel = getPanel(panelId);
+  const files = imageFiles(relativeDir);
+
+  files.forEach((file) => {
+    const src = `${relativeDir}/${file}`;
+    assert(panel.includes(src), `${panelId} missing ${src}`);
+  });
+
+  const srcMatches = panel.match(/<img src="([^"]+)"/g) || [];
+  const folderMatches = srcMatches.filter((match) => match.includes(`${relativeDir}/`));
+  assert(
+    folderMatches.length === files.length,
+    `${panelId} expected ${files.length} images from ${relativeDir}, found ${folderMatches.length}`
+  );
+}
+
+function assertLocalMediaExists() {
+  const mediaRefs = html.matchAll(/\b(?:src|poster)="([^"]+)"/g);
+
+  for (const match of mediaRefs) {
+    const ref = match[1];
+    if (/^(https?:|data:|mailto:|tel:|#)/i.test(ref)) continue;
+    assert(fs.existsSync(path.join(root, ref)), `Missing local media: ${ref}`);
+  }
+}
+
+function assertTabsTargetPanels() {
+  const panelIds = new Set([...html.matchAll(/<article class="gallery-job-panel[^"]*" id="([^"]+)"/g)].map((match) => match[1]));
+  const tabTargets = [...html.matchAll(/data-job-tab="([^"]+)"/g)].map((match) => match[1]);
+
+  tabTargets.forEach((target) => {
+    assert(panelIds.has(target), `Gallery tab targets missing panel: ${target}`);
+  });
+}
+
+const requiredDescriptions = [
+  'Set just back from the water this Shelley custom home combines raked ceilings, varying internal heights, and detailed structural elements across a tightly executed architectural footprint',
+  'This substantial Willetton custom residence combines a self-contained granny flat, double rendered textured finishes, expansive double-glazed openings, and oversized sliding doors across a carefully executed architectural footprint.',
+  'Designed with generous proportions, textured feature finishes, and expansive rear glazing, this Willetton home represents a thoughtful rebuild following the loss of the previous residence to fire.',
+  'Taking shape in the heart of Branksome Gardens, City Beach, this custom residence brings together scale, clean detailing, and expansive openings designed for effortless modern living',
+  'Small rear renovation and addition to the existing home, improving layout, functionality, and connection to the alfresco.',
+  'Three side-by-side three-storey residences in Cottesloe, each with 3 bedrooms, private internal lift access, cellar, and rooftop entertaining, delivered across a complex sloping coastal site.',
+  'Subiaco addition - a boundary wall adjoining the laneway, built solid to eye height for privacy before transitioning into an in-and-out bond to introduce airflow, filtered natural light, and visual interest. Turning a practical boundary wall into a well thought out feature.'
+];
+
+const requiredQuote = '"I\'ve always believed in delivering the extra 1% - not just in our brickwork, but across every part of the process. The goal is simple: a detailed finished product for the client, the unseen extras that set up following trades properly, and an experience that everyone involved - enjoys being part of. Leaving behind work we\'re proud of and impressions of myself and my team that are remembered." - Luke Sharp';
+
+const normalizedHtml = normalize(html);
+
+assert(!html.includes('<section id="before-after">'), 'The Process section still exists');
+assert(!html.includes('href="#before-after"'), 'Navigation still links to The Process');
+assertLocalMediaExists();
+assertTabsTargetPanels();
+
+requiredDescriptions.forEach((description) => {
+  assert(normalizedHtml.includes(description), `Missing description: ${description}`);
+});
+
+assert(normalizedHtml.includes(requiredQuote), 'Missing updated Luke Sharp quote');
+
+[
+  ['job-panel-broome', 'images/Broome St'],
+  ['job-panel-branksome', 'images/Branksome Gardens, City Beach'],
+  ['job-panel-princess', 'images/Princess Rd, Doubleview'],
+  ['job-panel-kershaw', 'images/Kershaw']
+].forEach(([panelId, relativeDir]) => assertPanelHasFolder(panelId, relativeDir));
+
+assert(!getPanel('job-panel-branksome').includes('images/number 6/'), 'Branksome panel still uses old number 6 photos');
+
+console.log('Content validation passed.');
