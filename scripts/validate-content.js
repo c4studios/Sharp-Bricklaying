@@ -3,6 +3,7 @@ const path = require('path');
 
 const root = path.resolve(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const css = fs.readFileSync(path.join(root, 'css', 'styles.css'), 'utf8');
 
 function fail(message) {
   throw new Error(message);
@@ -89,6 +90,11 @@ const requiredDescriptions = [
 
 const requiredQuote = '"I\'ve always believed in delivering the extra 1% - not just in our brickwork, but across every part of the process. The goal is simple: a detailed finished product for the client, the unseen extras that set up following trades properly, and an experience that everyone involved - enjoys being part of. Leaving behind work we\'re proud of and impressions of myself and my team that are remembered." - Luke Sharp';
 
+const requiredContactHeading = "LET'S DISCUSS YOUR NEXT PROJECT.";
+const requiredContactText = 'Whether your project is in planning or ready to commence, we welcome early enquiries. With our schedule often committed up to two months in advance, this allows us to properly plan, coordinate, and deliver each project to our standard while aligning with your proposed timeframe.';
+const mudboardsLogoPath = 'images/Sponsors and Affiliates Logo/mudboards_badge_transparent_cropped.png';
+const affiliateLinkCss = css.match(/\.footer-affiliate-link\s*\{[\s\S]*?\}/)?.[0] || '';
+
 const normalizedHtml = normalize(html);
 
 assert(!html.includes('<section id="before-after">'), 'The Process section still exists');
@@ -101,6 +107,13 @@ requiredDescriptions.forEach((description) => {
 });
 
 assert(normalizedHtml.includes(requiredQuote), 'Missing updated Luke Sharp quote');
+assert(normalizedHtml.includes(requiredContactHeading), 'Missing updated contact heading');
+assert(normalizedHtml.includes(requiredContactText), 'Missing updated contact text');
+assert(html.includes('<h4>Sponsors &amp; Affiliates</h4>'), 'Missing Sponsors & Affiliates heading');
+assert(html.includes('href="https://mudboards.com.au/"'), 'Missing Mudboards sponsor link');
+assert(html.includes(`src="${mudboardsLogoPath}"`), 'Missing Mudboards sponsor logo');
+assert(normalizedHtml.includes('Click me to learn more'), 'Missing Mudboards click prompt');
+assert(/background:\s*transparent;/.test(affiliateLinkCss), 'Mudboards sponsor link must keep a transparent background');
 
 [
   ['job-panel-broome', 'images/Broome St'],
