@@ -42,6 +42,13 @@ function imageFiles(relativeDir) {
     .sort((a, b) => a.localeCompare(b));
 }
 
+function videoFiles(relativeDir) {
+  return fs
+    .readdirSync(path.join(root, relativeDir))
+    .filter((name) => /\.(mp4|webm)$/i.test(name))
+    .sort((a, b) => a.localeCompare(b));
+}
+
 function assertPanelHasFolder(panelId, relativeDir) {
   const panel = getPanel(panelId);
   const files = imageFiles(relativeDir);
@@ -56,6 +63,23 @@ function assertPanelHasFolder(panelId, relativeDir) {
   assert(
     folderMatches.length === files.length,
     `${panelId} expected ${files.length} images from ${relativeDir}, found ${folderMatches.length}`
+  );
+}
+
+function assertPanelHasVideoFolder(panelId, relativeDir) {
+  const panel = getPanel(panelId);
+  const files = videoFiles(relativeDir);
+
+  files.forEach((file) => {
+    const src = `${relativeDir}/${file}`;
+    assert(panel.includes(src), `${panelId} missing ${src}`);
+  });
+
+  const sourceMatches = panel.match(/<source src="([^"]+)"/g) || [];
+  const folderMatches = sourceMatches.filter((match) => match.includes(`${relativeDir}/`));
+  assert(
+    folderMatches.length === files.length,
+    `${panelId} expected ${files.length} videos from ${relativeDir}, found ${folderMatches.length}`
   );
 }
 
@@ -83,6 +107,7 @@ const requiredDescriptions = [
   'This substantial Willetton custom residence combines a self-contained granny flat, double rendered textured finishes, expansive double-glazed openings, and oversized sliding doors across a carefully executed architectural footprint.',
   'Designed with generous proportions, textured feature finishes, and expansive rear glazing, this Willetton home represents a thoughtful rebuild following the loss of the previous residence to fire.',
   'Taking shape in the heart of Branksome Gardens, City Beach, this custom residence brings together scale, clean detailing, and expansive openings designed for effortless modern living',
+  'Alice St, Doubleview captures residential brickwork through progress photography and site footage, documenting the set-out, wall progression, and clean execution across the build.',
   'Small rear renovation and addition to the existing home, improving layout, functionality, and connection to the alfresco.',
   'Three side-by-side three-storey residences in Cottesloe, each with 3 bedrooms, private internal lift access, cellar, and rooftop entertaining, delivered across a complex sloping coastal site.',
   'Subiaco addition - a boundary wall adjoining the laneway, built solid to eye height for privacy before transitioning into an in-and-out bond to introduce airflow, filtered natural light, and visual interest. Turning a practical boundary wall into a well thought out feature.'
@@ -119,8 +144,11 @@ assert(/background:\s*transparent;/.test(affiliateLinkCss), 'Mudboards sponsor l
   ['job-panel-broome', 'images/Broome St'],
   ['job-panel-branksome', 'images/Branksome Gardens, City Beach'],
   ['job-panel-princess', 'images/Princess Rd, Doubleview'],
+  ['job-panel-alice', 'images/Alice St, Doubleview'],
   ['job-panel-kershaw', 'images/Kershaw']
 ].forEach(([panelId, relativeDir]) => assertPanelHasFolder(panelId, relativeDir));
+
+assertPanelHasVideoFolder('job-panel-alice', 'images/Alice St, Doubleview');
 
 assert(!getPanel('job-panel-branksome').includes('images/number 6/'), 'Branksome panel still uses old number 6 photos');
 
