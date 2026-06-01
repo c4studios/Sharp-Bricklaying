@@ -474,6 +474,65 @@
     });
   });
 
+  // Sponsor profile modal
+  var sponsorProfileOpen = document.querySelector('[data-sponsor-profile-open]');
+  var sponsorProfileModal = document.getElementById('sponsor-profile-modal');
+  var sponsorProfileCloseEls = sponsorProfileModal ? sponsorProfileModal.querySelectorAll('[data-sponsor-profile-close]') : [];
+  var sponsorProfileLastFocus = null;
+
+  function openSponsorProfile() {
+    if (!sponsorProfileModal) return;
+    sponsorProfileLastFocus = document.activeElement;
+    sponsorProfileModal.hidden = false;
+    sponsorProfileModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('sponsor-profile-open');
+
+    var closeBtn = sponsorProfileModal.querySelector('.sponsor-profile-modal__close');
+    if (closeBtn) closeBtn.focus();
+  }
+
+  function closeSponsorProfile() {
+    if (!sponsorProfileModal || sponsorProfileModal.hidden) return;
+    sponsorProfileModal.hidden = true;
+    sponsorProfileModal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('sponsor-profile-open');
+
+    if (sponsorProfileLastFocus && typeof sponsorProfileLastFocus.focus === 'function') {
+      sponsorProfileLastFocus.focus();
+    }
+  }
+
+  if (sponsorProfileOpen && sponsorProfileModal) {
+    sponsorProfileOpen.addEventListener('click', openSponsorProfile);
+
+    sponsorProfileCloseEls.forEach(function (el) {
+      el.addEventListener('click', closeSponsorProfile);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (sponsorProfileModal.hidden) return;
+      if (e.key === 'Escape') {
+        closeSponsorProfile();
+        return;
+      }
+      if (e.key !== 'Tab') return;
+
+      var focusable = sponsorProfileModal.querySelectorAll('a[href], button:not([disabled])');
+      if (!focusable.length) return;
+
+      var firstFocusable = focusable[0];
+      var lastFocusable = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === firstFocusable) {
+        e.preventDefault();
+        lastFocusable.focus();
+      } else if (!e.shiftKey && document.activeElement === lastFocusable) {
+        e.preventDefault();
+        firstFocusable.focus();
+      }
+    });
+  }
+
   var yearEl = document.getElementById('footer-year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 

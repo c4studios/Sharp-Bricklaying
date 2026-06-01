@@ -5,6 +5,13 @@ const root = path.resolve(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const css = fs.readFileSync(path.join(root, 'css', 'styles.css'), 'utf8');
 
+const panelMediaExclusions = {
+  'job-panel-alice': {
+    images: ['WhatsApp Image 2026-05-26 at 5.58.00 AM.jpeg'],
+    videos: ['WhatsApp Video 2026-05-26 at 5.58.27 AM.mp4']
+  }
+};
+
 function fail(message) {
   throw new Error(message);
 }
@@ -51,11 +58,17 @@ function videoFiles(relativeDir) {
 
 function assertPanelHasFolder(panelId, relativeDir) {
   const panel = getPanel(panelId);
-  const files = imageFiles(relativeDir);
+  const exclusions = panelMediaExclusions[panelId]?.images || [];
+  const files = imageFiles(relativeDir).filter((file) => !exclusions.includes(file));
 
   files.forEach((file) => {
     const src = `${relativeDir}/${file}`;
     assert(panel.includes(src), `${panelId} missing ${src}`);
+  });
+
+  exclusions.forEach((file) => {
+    const src = `${relativeDir}/${file}`;
+    assert(!panel.includes(src), `${panelId} should not include ${src}`);
   });
 
   const srcMatches = panel.match(/<img src="([^"]+)"/g) || [];
@@ -68,11 +81,17 @@ function assertPanelHasFolder(panelId, relativeDir) {
 
 function assertPanelHasVideoFolder(panelId, relativeDir) {
   const panel = getPanel(panelId);
-  const files = videoFiles(relativeDir);
+  const exclusions = panelMediaExclusions[panelId]?.videos || [];
+  const files = videoFiles(relativeDir).filter((file) => !exclusions.includes(file));
 
   files.forEach((file) => {
     const src = `${relativeDir}/${file}`;
     assert(panel.includes(src), `${panelId} missing ${src}`);
+  });
+
+  exclusions.forEach((file) => {
+    const src = `${relativeDir}/${file}`;
+    assert(!panel.includes(src), `${panelId} should not include ${src}`);
   });
 
   const sourceMatches = panel.match(/<source src="([^"]+)"/g) || [];
@@ -137,7 +156,9 @@ assert(normalizedHtml.includes(requiredContactText), 'Missing updated contact te
 assert(html.includes('<h4>Sponsors &amp; Affiliates</h4>'), 'Missing Sponsors & Affiliates heading');
 assert(html.includes('href="https://mudboards.com.au/"'), 'Missing Mudboards sponsor link');
 assert(html.includes(`src="${mudboardsLogoPath}"`), 'Missing Mudboards sponsor logo');
-assert(normalizedHtml.includes('Click me to learn more'), 'Missing Mudboards click prompt');
+assert(html.includes('data-sponsor-profile-open'), 'Missing Mudboards sponsor profile trigger');
+assert(html.includes('id="sponsor-profile-modal"'), 'Missing Mudboards sponsor profile modal');
+assert(normalizedHtml.includes('Mudboards Australia is bringing a smarter alternative to the standard ply and metal mudboards seen across site'), 'Missing Mudboards sponsor profile extract');
 assert(/background:\s*transparent;/.test(affiliateLinkCss), 'Mudboards sponsor link must keep a transparent background');
 
 [

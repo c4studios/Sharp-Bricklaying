@@ -541,7 +541,6 @@
       <div class="job-media-grid">
         <figure class="job-media-item"><img src="images/Alice St, Doubleview/WhatsApp Image 2026-05-26 at 5.54.42 AM.jpeg" alt="Alice St Doubleview residential brickwork progress photo 1" decoding="async"></figure>
         <figure class="job-media-item"><img src="images/Alice St, Doubleview/WhatsApp Image 2026-05-26 at 5.57.16 AM.jpeg" alt="Alice St Doubleview residential brickwork progress photo 2" decoding="async"></figure>
-        <figure class="job-media-item"><img src="images/Alice St, Doubleview/WhatsApp Image 2026-05-26 at 5.58.00 AM.jpeg" alt="Alice St Doubleview residential brickwork progress photo 3" decoding="async"></figure>
       </div>
       <div class="job-footage-section" aria-label="Alice St video footage">
         <div class="job-footage-header">
@@ -567,11 +566,6 @@
           <figure class="job-video-card">
             <video controls preload="metadata" playsinline poster="images/Alice St, Doubleview/WhatsApp Image 2026-05-26 at 5.57.16 AM.jpeg">
               <source src="images/Alice St, Doubleview/WhatsApp Video 2026-05-26 at 5.55.13 AM.mp4" type="video/mp4">
-            </video>
-          </figure>
-          <figure class="job-video-card">
-            <video controls preload="metadata" playsinline poster="images/Alice St, Doubleview/WhatsApp Image 2026-05-26 at 5.58.00 AM.jpeg">
-              <source src="images/Alice St, Doubleview/WhatsApp Video 2026-05-26 at 5.58.27 AM.mp4" type="video/mp4">
             </video>
           </figure>
         </div>
@@ -749,10 +743,21 @@
       </div>
       <div class="footer-affiliates" aria-label="Sponsors and affiliates">
         <h4>Sponsors &amp; Affiliates</h4>
-        <a href="https://mudboards.com.au/" target="_blank" rel="noopener noreferrer" class="footer-affiliate-link" aria-label="Visit Mudboards">
-          <img src="images/Sponsors and Affiliates Logo/mudboards_badge_transparent_cropped.png" alt="Mudboards Australia" width="559" height="556" loading="lazy">
-          <span class="footer-affiliate-prompt">Click me to learn more</span>
-        </a>
+        <div class="footer-affiliate-feature">
+          <a href="https://mudboards.com.au/" target="_blank" rel="noopener noreferrer" class="footer-affiliate-link" aria-label="Visit Mudboards Australia">
+            <img src="images/Sponsors and Affiliates Logo/mudboards_badge_transparent_cropped.png" alt="Mudboards Australia" width="559" height="556" loading="lazy">
+          </a>
+          <button type="button" class="sponsor-profile-btn" data-sponsor-profile-open aria-haspopup="dialog" aria-controls="sponsor-profile-modal">
+            <span class="sponsor-profile-btn__icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M6 4.5h7.25L18 9.25V19.5H6V4.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                <path d="M13 4.75V9.5h4.75" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                <path d="M8.75 13h6.5M8.75 16h4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="sponsor-profile-btn__text">Profile</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -775,6 +780,40 @@
     <p class="footer-legal">ABN - 5297 5728 192 &amp; 7769 7027 446<br>SHARP BRICKLAYING &amp; SHARP BRICKLAYING PTY LTD</p>
   </div>
 </footer>
+
+<!-- Sponsor Profile Modal -->
+<div class="sponsor-profile-modal" id="sponsor-profile-modal" hidden aria-hidden="true">
+  <div class="sponsor-profile-modal__backdrop" data-sponsor-profile-close></div>
+  <div class="sponsor-profile-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="sponsor-profile-title">
+    <button type="button" class="sponsor-profile-modal__close" data-sponsor-profile-close aria-label="Close sponsor profile">
+      <span>Close</span>
+      <kbd>Esc</kbd>
+    </button>
+    <article class="sponsor-profile-card">
+      <div class="sponsor-profile-card__rail" aria-hidden="true"></div>
+      <div class="sponsor-profile-card__header">
+        <img src="images/Sponsors and Affiliates Logo/mudboards_badge_transparent_cropped.png" alt="" width="559" height="556" loading="lazy">
+        <div>
+          <p class="sponsor-profile-card__label">Sponsor Profile</p>
+          <h2 id="sponsor-profile-title">Mudboards Australia</h2>
+        </div>
+      </div>
+      <div class="sponsor-profile-card__body">
+        <p>Mudboards Australia is bringing a smarter alternative to the standard ply and metal mudboards seen across site. Innovation in bricklaying doesn't come around often, which is exactly why products like this stand out - a genuine rethink of something we use every single day.</p>
+        <p>Manufactured from UV-resistant HDPE plastic, these 600x600x10mm boards are built to handle harsh Australian conditions without the drawbacks of traditional materials. At just 3.4kg, they're lightweight enough for easy handling around site with the built-in handles, while still feeling solid under daily use. This is one of those purchases where you buy it once and you're set for a very long time - not constantly replacing bent metal boards or carting around worn-out alternatives.</p>
+        <p>Compared to timber boards that absorb moisture or metal boards that become messy and harder to maintain, the mud works beautifully on these, creating a smoother, more practical working surface without drawing moisture from the mud, helping it stay workable for longer before going off.</p>
+        <p>The easy-clean surface means wash-up is effortless at the end of the day, and no more banging those metal boards with your trowels every morning.</p>
+        <p>Safe to say, we never knew mudboards could be this exciting. This has definitely become a permanent replacement in our team.</p>
+      </div>
+      <a href="https://mudboards.com.au/" target="_blank" rel="noopener noreferrer" class="sponsor-profile-card__link">
+        Visit Mudboards
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </article>
+  </div>
+</div>
 
 <!-- Gallery Lightbox -->
 <div class="gallery-lightbox" id="gallery-lightbox" hidden aria-hidden="true">
