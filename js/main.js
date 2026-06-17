@@ -254,8 +254,8 @@
         submitBtn.textContent = 'Sending...';
       }
 
-      // Using Netlify Function → Resend to deliver enquiries to luke@sharpbricklaying.com.au
-      var ENDPOINT = '/.netlify/functions/send-email';
+      // Vercel serverless function → Resend, delivers enquiries to luke@sharpbricklaying.com.au
+      var ENDPOINT = '/api/send-email';
 
       var formData = new FormData(contactForm);
       var payload  = {
