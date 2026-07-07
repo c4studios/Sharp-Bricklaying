@@ -67,7 +67,9 @@ function assertPanelHasFolder(panelId, relativeDir) {
   });
 
   const srcMatches = panel.match(/<img src="([^"]+)"/g) || [];
-  const folderMatches = srcMatches.filter((match) => match.includes(`${relativeDir}/`));
+  const folderMatches = srcMatches.filter(
+    (match) => match.includes(`${relativeDir}/`) && !match.includes(`${relativeDir}/posters/`)
+  );
   assert(
     folderMatches.length === files.length,
     `${panelId} expected ${files.length} images from ${relativeDir}, found ${folderMatches.length}`
@@ -89,7 +91,9 @@ function assertPanelHasVideoFolder(panelId, relativeDir) {
     assert(!panel.includes(src), `${panelId} should not include ${src}`);
   });
 
-  const sourceMatches = panel.match(/<source src="([^"]+)"/g) || [];
+  // Alice St footage is rendered as poster facades (data-lightbox-video) that
+  // open a single on-demand player in the shared lightbox, not inline <source>.
+  const sourceMatches = panel.match(/(?:<source src|data-lightbox-video)="([^"]+)"/g) || [];
   const folderMatches = sourceMatches.filter((match) => match.includes(`${relativeDir}/`));
   assert(
     folderMatches.length === files.length,

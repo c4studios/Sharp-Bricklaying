@@ -1768,6 +1768,69 @@ body.sponsor-profile-open {
   object-fit: contain;
 }
 
+.gallery-lightbox__figure video {
+  max-width: 100%;
+  max-height: min(72vh, 760px);
+  width: auto;
+  height: auto;
+  display: block;
+  background: #10110f;
+  outline: none;
+}
+
+.gallery-lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(232,220,197,0.28);
+  background: rgba(12,29,22,0.82);
+  color: #f5eddc;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.gallery-lightbox__nav:hover {
+  background: rgba(20,46,35,0.96);
+  border-color: rgba(232,220,197,0.5);
+}
+
+.gallery-lightbox__nav:focus-visible {
+  outline: 2px solid rgba(232,220,197,0.7);
+  outline-offset: 2px;
+}
+
+.gallery-lightbox__nav[hidden] {
+  display: none;
+}
+
+.gallery-lightbox__nav--prev {
+  left: -24px;
+}
+
+.gallery-lightbox__nav--next {
+  right: -24px;
+}
+
+@media (max-width: 640px) {
+  .gallery-lightbox__nav {
+    width: 44px;
+    height: 44px;
+  }
+  .gallery-lightbox__nav--prev {
+    left: 4px;
+  }
+  .gallery-lightbox__nav--next {
+    right: 4px;
+  }
+}
+
 #gallery img,
 #before-after img {
   cursor: zoom-in;
@@ -2230,12 +2293,29 @@ body.lightbox-open {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-auto-rows: 230px;
-  gap: 4px;
+  gap: 12px;
 }
 
 .job-media-item {
+  position: relative;
   overflow: hidden;
   background: rgba(27,67,50,0.08);
+}
+
+/* Restrained brand-green frame on hover/focus instead of a heavy zoom. */
+.job-media-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 0 rgba(27,67,50,0);
+  transition: box-shadow 0.25s ease;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.job-media-item:hover::after,
+.job-media-item:focus-within::after {
+  box-shadow: inset 0 0 0 2px rgba(27,67,50,0.6);
 }
 
 .job-media-item:first-child {
@@ -2272,7 +2352,19 @@ body.lightbox-open {
 
 .job-media-item:hover img,
 .job-media-item:hover video {
-  transform: scale(1.04);
+  transform: scale(1.03);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .job-media-item img,
+  .job-media-item video,
+  .job-film-trigger img {
+    transition: none;
+  }
+  .job-media-item:hover img,
+  .job-media-item:hover video {
+    transform: none;
+  }
 }
 
 .job-footage-section {
@@ -2328,6 +2420,107 @@ body.lightbox-open {
   background: #10110f;
   display: block;
   width: 100%;
+}
+
+/* ─── Video facade tiles (poster-only; open in the shared lightbox) ─── */
+.job-media-item--film {
+  background: #10110f;
+}
+
+.job-film-trigger {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  cursor: pointer;
+  background: #10110f;
+  color: #f5eddc;
+}
+
+.job-film-trigger img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  transition: transform 0.6s ease;
+}
+
+.job-media-item--film:hover .job-film-trigger img {
+  transform: scale(1.03);
+}
+
+/* Legibility wash so the glyph and tag read over any frame. */
+.job-film-trigger::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(6,15,11,0) 45%, rgba(6,15,11,0.52) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.job-film-glyph {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(6,15,11,0.55);
+  border: 1px solid rgba(245,237,220,0.5);
+  color: #f5eddc;
+  z-index: 2;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.job-film-glyph svg {
+  margin-left: 3px; /* optically centre the play triangle */
+}
+
+.job-film-trigger:hover .job-film-glyph,
+.job-film-trigger:focus-visible .job-film-glyph {
+  background: rgba(27,67,50,0.88);
+  border-color: rgba(245,237,220,0.85);
+  transform: translate(-50%, -50%) scale(1.07);
+}
+
+.job-film-tag {
+  position: absolute;
+  left: 12px;
+  bottom: 11px;
+  z-index: 2;
+  font-family: 'Lato', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(245,237,220,0.94);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.job-film-trigger:focus-visible {
+  outline: 2px solid rgba(27,67,50,0.9);
+  outline-offset: -2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .job-media-item--film:hover .job-film-trigger img {
+    transform: none;
+  }
+  .job-film-trigger:hover .job-film-glyph,
+  .job-film-trigger:focus-visible .job-film-glyph {
+    transform: translate(-50%, -50%);
+  }
 }
 
 .gallery-item--single {
