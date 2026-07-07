@@ -5,12 +5,7 @@ const root = path.resolve(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const css = fs.readFileSync(path.join(root, 'css', 'styles.css'), 'utf8');
 
-const panelMediaExclusions = {
-  'job-panel-alice': {
-    images: ['WhatsApp Image 2026-05-26 at 5.58.00 AM.jpeg'],
-    videos: ['WhatsApp Video 2026-05-26 at 5.58.27 AM.mp4']
-  }
-};
+const panelMediaExclusions = {};
 
 function fail(message) {
   throw new Error(message);
