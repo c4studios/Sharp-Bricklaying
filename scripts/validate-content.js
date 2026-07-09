@@ -136,6 +136,7 @@ const requiredQuote = '"I\'ve always believed in delivering the extra 1% - not j
 const requiredContactHeading = "LET'S DISCUSS YOUR NEXT PROJECT.";
 const requiredContactText = 'Whether your project is in planning or ready to commence, we welcome early enquiries. With our schedule often committed up to two months in advance, this allows us to properly plan, coordinate, and deliver each project to our standard while aligning with your proposed timeframe.';
 const mudboardsLogoPath = 'images/Sponsors and Affiliates Logo/mudboards_badge_transparent_cropped.png';
+const brickieGripLogoPath = 'images/Sponsors and Affiliates Logo/brickie_grip_logo.jpg';
 const affiliateLinkCss = css.match(/\.footer-affiliate-link\s*\{[\s\S]*?\}/)?.[0] || '';
 
 const normalizedHtml = normalize(html);
@@ -159,6 +160,11 @@ assert(html.includes('data-sponsor-profile-open'), 'Missing Mudboards sponsor pr
 assert(html.includes('id="sponsor-profile-modal"'), 'Missing Mudboards sponsor profile modal');
 assert(normalizedHtml.includes('Mudboards Australia is bringing a smarter alternative to the standard ply and metal mudboards seen across site'), 'Missing Mudboards sponsor profile extract');
 assert(/background:\s*transparent;/.test(affiliateLinkCss), 'Mudboards sponsor link must keep a transparent background');
+assert(html.includes('href="https://www.brickiegrip.com.au/"'), 'Missing BrickieGrip sponsor link');
+assert(html.includes(`src="${brickieGripLogoPath}"`), 'Missing BrickieGrip sponsor logo');
+assert(html.includes('aria-controls="sponsor-profile-modal-brickiegrip"'), 'Missing BrickieGrip sponsor profile trigger');
+assert(html.includes('id="sponsor-profile-modal-brickiegrip"'), 'Missing BrickieGrip sponsor profile modal');
+assert(normalizedHtml.includes("BrickieGrip is a durable over-grip designed to wrap around your bricklayer's trowel handle"), 'Missing BrickieGrip sponsor profile extract');
 
 [
   ['job-panel-broome', 'images/Broome St'],

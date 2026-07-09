@@ -766,20 +766,37 @@
       </div>
       <div class="footer-affiliates" aria-label="Sponsors and affiliates">
         <h4>Sponsors &amp; Affiliates</h4>
-        <div class="footer-affiliate-feature">
-          <a href="https://mudboards.com.au/" target="_blank" rel="noopener noreferrer" class="footer-affiliate-link" aria-label="Visit Mudboards Australia">
-            <img src="images/Sponsors and Affiliates Logo/mudboards_badge_transparent_cropped.png" alt="Mudboards Australia" width="559" height="556" loading="lazy">
-          </a>
-          <button type="button" class="sponsor-profile-btn" data-sponsor-profile-open aria-haspopup="dialog" aria-controls="sponsor-profile-modal">
-            <span class="sponsor-profile-btn__icon" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path d="M6 4.5h7.25L18 9.25V19.5H6V4.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                <path d="M13 4.75V9.5h4.75" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                <path d="M8.75 13h6.5M8.75 16h4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-              </svg>
-            </span>
-            <span class="sponsor-profile-btn__text">Profile</span>
-          </button>
+        <div class="footer-affiliate-grid">
+          <div class="footer-affiliate-feature">
+            <a href="https://mudboards.com.au/" target="_blank" rel="noopener noreferrer" class="footer-affiliate-link" aria-label="Visit Mudboards Australia">
+              <img src="images/Sponsors and Affiliates Logo/mudboards_badge_transparent_cropped.png" alt="Mudboards Australia" width="559" height="556" loading="lazy">
+            </a>
+            <button type="button" class="sponsor-profile-btn" data-sponsor-profile-open aria-haspopup="dialog" aria-controls="sponsor-profile-modal">
+              <span class="sponsor-profile-btn__icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M6 4.5h7.25L18 9.25V19.5H6V4.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                  <path d="M13 4.75V9.5h4.75" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                  <path d="M8.75 13h6.5M8.75 16h4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <span class="sponsor-profile-btn__text">Profile</span>
+            </button>
+          </div>
+          <div class="footer-affiliate-feature">
+            <a href="https://www.brickiegrip.com.au/" target="_blank" rel="noopener noreferrer" class="footer-affiliate-link footer-affiliate-link--tile" aria-label="Visit BrickieGrip">
+              <img src="images/Sponsors and Affiliates Logo/brickie_grip_logo.jpg" alt="BrickieGrip" width="440" height="440" loading="lazy">
+            </a>
+            <button type="button" class="sponsor-profile-btn" data-sponsor-profile-open aria-haspopup="dialog" aria-controls="sponsor-profile-modal-brickiegrip">
+              <span class="sponsor-profile-btn__icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M6 4.5h7.25L18 9.25V19.5H6V4.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                  <path d="M13 4.75V9.5h4.75" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                  <path d="M8.75 13h6.5M8.75 16h4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <span class="sponsor-profile-btn__text">Profile</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -830,6 +847,44 @@
       </div>
       <a href="https://mudboards.com.au/" target="_blank" rel="noopener noreferrer" class="sponsor-profile-card__link">
         Visit Mudboards
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </article>
+  </div>
+</div>
+
+<!-- Sponsor Profile Modal — BrickieGrip -->
+<div class="sponsor-profile-modal" id="sponsor-profile-modal-brickiegrip" hidden aria-hidden="true">
+  <div class="sponsor-profile-modal__backdrop" data-sponsor-profile-close></div>
+  <div class="sponsor-profile-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="sponsor-profile-brickiegrip-title">
+    <button type="button" class="sponsor-profile-modal__close" data-sponsor-profile-close aria-label="Close sponsor profile">
+      <span>Close</span>
+      <kbd>Esc</kbd>
+    </button>
+    <article class="sponsor-profile-card">
+      <div class="sponsor-profile-card__rail" aria-hidden="true"></div>
+      <div class="sponsor-profile-card__header">
+        <img src="images/Sponsors and Affiliates Logo/brickie_grip_logo.jpg" alt="" width="440" height="440" loading="lazy" class="sponsor-profile-card__badge--tile">
+        <div>
+          <p class="sponsor-profile-card__label">Affiliate Profile</p>
+          <h2 id="sponsor-profile-brickiegrip-title">BrickieGrip</h2>
+        </div>
+      </div>
+      <div class="sponsor-profile-card__body">
+        <p>BrickieGrip is a durable over-grip designed to wrap around your bricklayer's trowel handle to improve grip, comfort, and control while working.</p>
+        <p>Developed and tested by an Australian bricklayer with over 20 years on the tools, BrickieGrip helps reduce slipping caused by sweat, water, and mortar during long days on site.</p>
+        <ul class="sponsor-profile-card__features">
+          <li>Improves grip and control</li>
+          <li>Water-resistant material</li>
+          <li>Designed for tough job-site conditions</li>
+          <li>Lightweight and easy to install</li>
+          <li>Developed by a professional bricklayer</li>
+        </ul>
+      </div>
+      <a href="https://www.brickiegrip.com.au/" target="_blank" rel="noopener noreferrer" class="sponsor-profile-card__link">
+        Visit BrickieGrip
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>

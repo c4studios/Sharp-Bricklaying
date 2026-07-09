@@ -474,27 +474,25 @@
     });
   });
 
-  // Sponsor profile modal
-  var sponsorProfileOpen = document.querySelector('[data-sponsor-profile-open]');
-  var sponsorProfileModal = document.getElementById('sponsor-profile-modal');
-  var sponsorProfileCloseEls = sponsorProfileModal ? sponsorProfileModal.querySelectorAll('[data-sponsor-profile-close]') : [];
+  // Sponsor profile modals (one per sponsor, linked via aria-controls)
+  var sponsorProfileTriggers = document.querySelectorAll('[data-sponsor-profile-open]');
   var sponsorProfileLastFocus = null;
 
-  function openSponsorProfile() {
-    if (!sponsorProfileModal) return;
+  function openSponsorProfile(modal) {
+    if (!modal) return;
     sponsorProfileLastFocus = document.activeElement;
-    sponsorProfileModal.hidden = false;
-    sponsorProfileModal.setAttribute('aria-hidden', 'false');
+    modal.hidden = false;
+    modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('sponsor-profile-open');
 
-    var closeBtn = sponsorProfileModal.querySelector('.sponsor-profile-modal__close');
+    var closeBtn = modal.querySelector('.sponsor-profile-modal__close');
     if (closeBtn) closeBtn.focus();
   }
 
-  function closeSponsorProfile() {
-    if (!sponsorProfileModal || sponsorProfileModal.hidden) return;
-    sponsorProfileModal.hidden = true;
-    sponsorProfileModal.setAttribute('aria-hidden', 'true');
+  function closeSponsorProfile(modal) {
+    if (!modal || modal.hidden) return;
+    modal.hidden = true;
+    modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('sponsor-profile-open');
 
     if (sponsorProfileLastFocus && typeof sponsorProfileLastFocus.focus === 'function') {
@@ -502,22 +500,29 @@
     }
   }
 
-  if (sponsorProfileOpen && sponsorProfileModal) {
-    sponsorProfileOpen.addEventListener('click', openSponsorProfile);
+  sponsorProfileTriggers.forEach(function (trigger) {
+    var modal = document.getElementById(trigger.getAttribute('aria-controls'));
+    if (!modal) return;
 
-    sponsorProfileCloseEls.forEach(function (el) {
-      el.addEventListener('click', closeSponsorProfile);
+    trigger.addEventListener('click', function () {
+      openSponsorProfile(modal);
+    });
+
+    modal.querySelectorAll('[data-sponsor-profile-close]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        closeSponsorProfile(modal);
+      });
     });
 
     document.addEventListener('keydown', function (e) {
-      if (sponsorProfileModal.hidden) return;
+      if (modal.hidden) return;
       if (e.key === 'Escape') {
-        closeSponsorProfile();
+        closeSponsorProfile(modal);
         return;
       }
       if (e.key !== 'Tab') return;
 
-      var focusable = sponsorProfileModal.querySelectorAll('a[href], button:not([disabled])');
+      var focusable = modal.querySelectorAll('a[href], button:not([disabled])');
       if (!focusable.length) return;
 
       var firstFocusable = focusable[0];
@@ -531,7 +536,7 @@
         firstFocusable.focus();
       }
     });
-  }
+  });
 
   var yearEl = document.getElementById('footer-year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();

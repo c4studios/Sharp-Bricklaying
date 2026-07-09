@@ -1358,6 +1358,12 @@ section[id] { scroll-margin-top: 80px; }
   margin-bottom: 16px;
 }
 
+.footer-affiliate-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .footer-affiliate-feature {
   display: flex;
   align-items: center;
@@ -1388,6 +1394,18 @@ section[id] { scroll-margin-top: 80px; }
   width: 100%;
   height: auto;
   filter: drop-shadow(0 0 10px rgba(255,255,255,0.12));
+}
+
+/* Logos supplied with a baked-in background sit in a framed tile */
+.footer-affiliate-link--tile img {
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.10);
+  filter: none;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+
+.footer-affiliate-link--tile:hover img {
+  border-color: rgba(193,68,14,0.5);
 }
 
 .sponsor-profile-btn {
@@ -1608,6 +1626,12 @@ section[id] { scroll-margin-top: 80px; }
   filter: drop-shadow(0 6px 14px rgba(27,67,50,0.14));
 }
 
+.sponsor-profile-card__header img.sponsor-profile-card__badge--tile {
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.28);
+}
+
 .sponsor-profile-card__label {
   margin-bottom: 6px;
   color: var(--terracotta);
@@ -1638,6 +1662,32 @@ section[id] { scroll-margin-top: 80px; }
   color: rgba(39,45,43,0.78);
   font-size: 15px;
   line-height: 1.75;
+}
+
+.sponsor-profile-card__features {
+  list-style: none;
+  margin: 5px 0 0;
+  display: grid;
+  gap: 12px;
+}
+
+.sponsor-profile-card__features li {
+  position: relative;
+  padding-left: 32px;
+  color: rgba(39,45,43,0.82);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.sponsor-profile-card__features li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 1px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--green) url("data:image/svg+xml;utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='%23ffffff'%20stroke-width='3'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M5%2012l4%204%2010-11'/%3E%3C/svg%3E") center / 12px 12px no-repeat;
 }
 
 .sponsor-profile-card__link {
