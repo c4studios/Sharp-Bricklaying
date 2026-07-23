@@ -31,7 +31,7 @@ function normalize(value) {
 }
 
 function getPanel(panelId) {
-  const pattern = new RegExp(`<article class="gallery-job-panel[^"]*" id="${panelId}"[\\s\\S]*?(?=\\n    <article class="gallery-job-panel"|\\n  </div>\\n\\n</section>)`);
+  const pattern = new RegExp(`<article class="gallery-job-panel[^"]*" id="${panelId}"[\\s\\S]*?(?=\\n    <article class="gallery-job-panel"|\\n  </div>\\s*?</section>)`);
   const match = html.match(pattern);
   if (!match) fail(`Missing panel ${panelId}`);
   return match[0];
@@ -128,7 +128,9 @@ const requiredDescriptions = [
   'Alice St, Doubleview captures residential brickwork through progress photography and site footage, documenting the set-out, wall progression, and clean execution across the build.',
   'Small rear renovation and addition to the existing home, improving layout, functionality, and connection to the alfresco.',
   'Three side-by-side three-storey residences in Cottesloe, each with 3 bedrooms, private internal lift access, cellar, and rooftop entertaining, delivered across a complex sloping coastal site.',
-  'Subiaco addition - a boundary wall adjoining the laneway, built solid to eye height for privacy before transitioning into an in-and-out bond to introduce airflow, filtered natural light, and visual interest. Turning a practical boundary wall into a well thought out feature.'
+  'Subiaco addition - a boundary wall adjoining the laneway, built solid to eye height for privacy before transitioning into an in-and-out bond to introduce airflow, filtered natural light, and visual interest. Turning a practical boundary wall into a well thought out feature.',
+  'A refined addition completed using signature heritage red clay bricks, introducing a new family room and cellar to this home. Every detail was carefully considered to ensure the extension respects the character of the original residence.',
+  'A standard build for one of our small private builders - steady work keeping the team sharp while our larger projects get underway.'
 ];
 
 const requiredQuote = '"I\'ve always believed in delivering the extra 1% - not just in our brickwork, but across every part of the process. The goal is simple: a detailed finished product for the client, the unseen extras that set up following trades properly, and an experience that everyone involved - enjoys being part of. Leaving behind work we\'re proud of and impressions of myself and my team that are remembered." - Luke Sharp';
@@ -171,10 +173,13 @@ assert(normalizedHtml.includes("BrickieGrip is a durable over-grip designed to w
   ['job-panel-branksome', 'images/Branksome Gardens, City Beach'],
   ['job-panel-princess', 'images/Princess Rd, Doubleview'],
   ['job-panel-alice', 'images/Alice St, Doubleview'],
-  ['job-panel-kershaw', 'images/Kershaw']
+  ['job-panel-kershaw', 'images/Kershaw'],
+  ['job-panel-cyandi', 'images/Cyandi Extension'],
+  ['job-panel-hammond', 'images/Hammond Park']
 ].forEach(([panelId, relativeDir]) => assertPanelHasFolder(panelId, relativeDir));
 
 assertPanelHasVideoFolder('job-panel-alice', 'images/Alice St, Doubleview');
+assertPanelHasVideoFolder('job-panel-cyandi', 'images/Cyandi Extension');
 
 assert(!getPanel('job-panel-branksome').includes('images/number 6/'), 'Branksome panel still uses old number 6 photos');
 
