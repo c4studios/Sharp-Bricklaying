@@ -175,11 +175,15 @@ assert(normalizedHtml.includes("BrickieGrip is a durable over-grip designed to w
   ['job-panel-alice', 'images/Alice St, Doubleview'],
   ['job-panel-kershaw', 'images/Kershaw'],
   ['job-panel-cyandi', 'images/Cyandi Extension'],
-  ['job-panel-hammond', 'images/Hammond Park']
+  ['job-panel-hammond', 'images/Hammond Park'],
+  ['job-panel-coolbinia', 'images/Coolbinia'],
+  ['job-panel-calypso', 'images/Calypso'],
+  ['job-panel-subiaco-glass', 'images/Subiaco Glass']
 ].forEach(([panelId, relativeDir]) => assertPanelHasFolder(panelId, relativeDir));
 
 assertPanelHasVideoFolder('job-panel-alice', 'images/Alice St, Doubleview');
 assertPanelHasVideoFolder('job-panel-cyandi', 'images/Cyandi Extension');
+assertPanelHasVideoFolder('job-panel-subiaco-glass', 'images/Subiaco Glass');
 
 assert(!getPanel('job-panel-branksome').includes('images/number 6/'), 'Branksome panel still uses old number 6 photos');
 
