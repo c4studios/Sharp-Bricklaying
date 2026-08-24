@@ -179,7 +179,8 @@ assert(normalizedHtml.includes("BrickieGrip is a durable over-grip designed to w
   ['job-panel-cyandi', 'images/Cyandi Extension'],
   ['job-panel-hammond', 'images/Hammond Park'],
   ['job-panel-coolbinia', 'images/Coolbinia'],
-  ['job-panel-subiaco-glass', 'images/Subiaco Glass']
+  ['job-panel-subiaco-glass', 'images/Subiaco Glass'],
+  ['job-panel-calypso', 'images/Calypso']
 ].forEach(([panelId, relativeDir]) => assertPanelHasFolder(panelId, relativeDir));
 
 assertPanelHasVideoFolder('job-panel-alice', 'images/Alice St, Doubleview');
