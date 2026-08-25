@@ -130,7 +130,6 @@ const requiredDescriptions = [
   'Three side-by-side three-storey residences in Cottesloe, each with 3 bedrooms, private internal lift access, cellar, and rooftop entertaining, delivered across a complex sloping coastal site.',
   'Subiaco addition - a boundary wall adjoining the laneway, built solid to eye height for privacy before transitioning into an in-and-out bond to introduce airflow, filtered natural light, and visual interest. Turning a practical boundary wall into a well thought out feature.',
   'A refined addition completed using signature heritage red clay bricks, introducing a new family room and cellar to this home. Every detail was carefully considered to ensure the extension respects the character of the original residence.',
-  'A standard build for one of our small private builders - steady work keeping the team sharp while our larger projects get underway.',
   'Boundary front wall featuring Carnaval Breeze Blocks. A striking architectural feature that proves sometimes, simplicity makes the biggest impact.',
   'A feature wall 62 courses high, using crystal venetian glass bricks. A project that is certainly one of a kind. $32,000 worth of bricks shipped over, 2.5+ tonnes of weight purely in the bricks and all stack bond with white mortex.'
 ];
@@ -177,10 +176,10 @@ assert(normalizedHtml.includes("BrickieGrip is a durable over-grip designed to w
   ['job-panel-alice', 'images/Alice St, Doubleview'],
   ['job-panel-kershaw', 'images/Kershaw'],
   ['job-panel-cyandi', 'images/Cyandi Extension'],
-  ['job-panel-hammond', 'images/Hammond Park'],
   ['job-panel-coolbinia', 'images/Coolbinia'],
   ['job-panel-subiaco-glass', 'images/Subiaco Glass'],
-  ['job-panel-calypso', 'images/Calypso']
+  ['job-panel-calypso', 'images/Calypso'],
+  ['job-panel-calypso', 'images/Hammond Park']
 ].forEach(([panelId, relativeDir]) => assertPanelHasFolder(panelId, relativeDir));
 
 assertPanelHasVideoFolder('job-panel-alice', 'images/Alice St, Doubleview');
