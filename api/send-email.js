@@ -62,12 +62,13 @@ module.exports = async function handler(req, res) {
 
   var payload = {
     // INTERIM sender: Resend's shared onboarding address works with no domain
-    // verification, but only delivers to the Resend account owner's address,
-    // which is luke@sharpbricklaying.net (Luke's real inbox). Once the domain is
-    // verified in Resend (after the DNS move off Wix), switch `from` back to
-    // noreply@sharpbricklaying.com.au — then `to` can be any address.
+    // verification, but only delivers to the Resend account owner's address.
+    // The Resend account is now owned by luke@sharpbricklaying.com.au, so that's
+    // the recipient. Once the domain is verified in Resend (after the DNS move
+    // off Wix), switch `from` to noreply@sharpbricklaying.com.au — then `to` can
+    // be any address.
     from:     'Sharp Bricklaying Website <onboarding@resend.dev>',
-    to:       ['luke@sharpbricklaying.net'],
+    to:       ['luke@sharpbricklaying.com.au'],
     reply_to: email,
     subject:  'New Enquiry from ' + name,
     text:     emailBody
