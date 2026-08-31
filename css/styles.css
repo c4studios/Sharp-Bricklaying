@@ -1101,9 +1101,44 @@ section[id] { scroll-margin-top: 80px; }
 
 .contact-social {
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 12px;
   margin-top: 32px;
 }
+
+/* Instagram is Sharp's main channel — surface it as a labelled link, not a bare icon */
+.contact-ig {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 18px;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  text-decoration: none;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+.contact-ig:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.65);
+  transform: translateY(-1px);
+}
+.contact-ig__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1.2;
+}
+.contact-ig__text strong {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 15px;
+}
+.contact-ig__handle { font-size: 13px; color: rgba(255,255,255,0.72); }
+.contact-ig__arrow { margin-left: 2px; transition: transform 0.25s ease; }
+.contact-ig:hover .contact-ig__arrow { transform: translateX(4px); }
 
 .social-btn {
   width: 44px;
