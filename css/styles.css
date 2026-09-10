@@ -3389,3 +3389,8 @@ input, textarea, select { caret-color: var(--green); }
 body.inner-page .nav-logo__on-light { display: none; }
 body.inner-page #nav.scrolled .nav-logo__on-dark { display: none; }
 body.inner-page #nav.scrolled .nav-logo__on-light { display: block; }
+
+/* Luke's intro copy runs to two paragraphs as of 11 Sep 2026. The global
+   reset zeroes <p> margins, so the second one needs its own spacing. */
+.featured__intro + .featured__intro,
+.page-head__intro + .page-head__intro { margin-top: 14px; }
