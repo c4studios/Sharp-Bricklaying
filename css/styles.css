@@ -3394,3 +3394,57 @@ body.inner-page #nav.scrolled .nav-logo__on-light { display: block; }
    reset zeroes <p> margins, so the second one needs its own spacing. */
 .featured__intro + .featured__intro,
 .page-head__intro + .page-head__intro { margin-top: 14px; }
+
+/* ---- What We Can Provide ------------------------------------
+   Luke's own positioning copy, sitting under the service cards.
+   Heading left, copy right, so it reads as a statement rather
+   than a third card. */
+.provide {
+  margin-top: 64px;
+  padding-top: 48px;
+  border-top: 1px solid rgba(27, 67, 50, 0.15);
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 56px;
+  align-items: start;
+  max-width: 1500px;
+}
+
+.provide__heading {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: clamp(26px, 2.6vw, 38px);
+  line-height: 1.02;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--green);
+}
+
+.provide__body p {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--mortar);
+  max-width: 68ch;
+}
+
+.provide__body p + p { margin-top: 16px; }
+
+.provide__quoting {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 2px solid var(--green);
+  color: var(--green) !important;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 56ch;
+}
+
+@media (max-width: 900px) {
+  .provide {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 48px;
+    padding-top: 36px;
+  }
+}
