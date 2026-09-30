@@ -324,6 +324,7 @@ assertPanelHasVideoFolder('job-panel-alice', 'images/Alice St, Doubleview');
 assertPanelHasVideoFolder('job-panel-cyandi', 'images/Cyandi Extension');
 assertPanelHasVideoFolder('job-panel-subiaco-glass', 'images/Subiaco Glass');
 assertPanelHasVideoFolder('job-panel-coolbinia', 'images/Coolbinia');
+assertPanelHasVideoFolder('job-panel-ccm', 'images/Mt Hawthorn CCM');
 
 assert(!getPanel('job-panel-branksome').includes('images/number 6/'), 'Branksome panel still uses old number 6 photos');
 
