@@ -317,7 +317,8 @@ assert(/background:\s*transparent;/.test(affiliateLinkCss), 'Mudboards sponsor l
   ['job-panel-subiaco-glass', 'images/Subiaco Glass'],
   ['job-panel-calypso', 'images/Calypso'],
   ['job-panel-calypso', 'images/Hammond Park'],
-  ['job-panel-ccm', 'images/Mt Hawthorn CCM']
+  ['job-panel-ccm', 'images/Mt Hawthorn CCM'],
+  ['job-panel-wembley', 'images/Wembley Downs - DIY']
 ].forEach(([panelId, relativeDir]) => assertPanelHasFolder(panelId, relativeDir));
 
 assertPanelHasVideoFolder('job-panel-alice', 'images/Alice St, Doubleview');
