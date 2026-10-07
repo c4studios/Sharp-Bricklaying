@@ -290,6 +290,21 @@ html { scrollbar-color: var(--green) var(--sand); }
 }
 .post__body strong { color: var(--charcoal); }
 
+.post__figure { margin: clamp(28px, 4vw, 40px) 0; }
+.post__figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+  background: rgba(27,67,50,0.08);
+}
+.post__figure figcaption {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--mortar);
+}
+
 .pullquote {
   margin: clamp(36px, 5vw, 52px) 0;
   padding-top: 22px;
