@@ -216,7 +216,8 @@ const linkSources = {
   home: pages.home,
   gallery: pages.gallery,
   contact: pages.contact,
-  articles: read('articles/index.html')
+  articles: read('articles/index.html'),
+  partners: read('partners/index.html')
 };
 
 Object.entries(linkSources).forEach(([name, html]) => {
@@ -252,11 +253,23 @@ const servedFiles = [
   'gallery/index.html',
   'contact/index.html',
   'articles/index.html',
+  'partners/index.html',
   'robots.txt',
   'sitemap.xml',
   '404.html',
   'privacy.html'
 ];
+// A visible [PLACEHOLDER] marks copy or media we are still waiting on from
+// the client. It is fine in a working tree and never fine in production.
+servedFiles.concat(['articles/wa-brick-shortage/index.html']).forEach((file) => {
+  const full = path.join(root, file);
+  if (!fs.existsSync(full)) return;
+  assert(
+    !fs.readFileSync(full, 'utf8').includes('[PLACEHOLDER'),
+    `${file} still contains a [PLACEHOLDER]; fill it before this ships`
+  );
+});
+
 servedFiles.forEach((file) => {
   const full = path.join(root, file);
   if (!fs.existsSync(full)) return;
