@@ -299,7 +299,7 @@ assert(normalized.home.includes(requiredQuote), 'Missing updated Luke Sharp quot
 // ── Sponsors (footer, on every page) ─────────────────────────
 Object.entries(pages).forEach(([name, html]) => {
   const text = normalized[name];
-  assert(html.includes('<h4>Sponsors &amp; Affiliates</h4>'), `${name}: missing Sponsors & Affiliates heading`);
+  assert(html.includes('<h3>Sponsors &amp; Affiliates</h3>'), `${name}: missing Sponsors & Affiliates heading`);
   assert(html.includes('href="https://mudboards.com.au/"'), `${name}: missing Mudboards sponsor link`);
   assert(html.includes(mudboardsLogoPath), `${name}: missing Mudboards sponsor logo`);
   assert(html.includes('data-sponsor-profile-open'), `${name}: missing sponsor profile trigger`);
