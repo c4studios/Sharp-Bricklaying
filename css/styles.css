@@ -3621,3 +3621,6 @@ body.inner-page #nav.scrolled .nav-logo__on-light { display: block; }
     padding: 28px;
   }
 }
+
+.partner__mark--white { background: #fff; }
+.partner__mark--white img { box-shadow: none; max-width: 300px; }
