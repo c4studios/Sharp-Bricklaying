@@ -217,7 +217,8 @@ const linkSources = {
   gallery: pages.gallery,
   contact: pages.contact,
   articles: read('articles/index.html'),
-  partners: read('partners/index.html')
+  partners: read('partners/index.html'),
+  careers: read('careers/index.html')
 };
 
 Object.entries(linkSources).forEach(([name, html]) => {
@@ -254,6 +255,7 @@ const servedFiles = [
   'contact/index.html',
   'articles/index.html',
   'partners/index.html',
+  'careers/index.html',
   'robots.txt',
   'sitemap.xml',
   '404.html',

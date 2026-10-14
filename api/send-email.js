@@ -39,6 +39,10 @@ module.exports = async function handler(req, res) {
   // The front-end sends `service`; accept `project_type` too for safety.
   var service = (body.service || body.project_type || '').toString().trim().slice(0, 100);
   var message = (body.message || '').toString().trim().slice(0, 2000);
+  // The careers page posts form: 'application' with a role and experience.
+  var isApplication = body.form === 'application';
+  var role       = (body.role || '').toString().trim().slice(0, 100);
+  var experience = (body.experience || '').toString().trim().slice(0, 100);
 
   if (!name || !email || !message) {
     return send(400, { error: 'Name, email and message are required.' });
@@ -48,7 +52,18 @@ module.exports = async function handler(req, res) {
     return send(400, { error: 'Invalid email address.' });
   }
 
-  var emailBody = [
+  var emailBody = isApplication ? [
+    'New job application from sharpbricklaying.com.au/careers',
+    '',
+    'Name:       ' + name,
+    'Email:      ' + email,
+    'Phone:      ' + (phone || '—'),
+    'Role:       ' + (role || '—'),
+    'Experience: ' + (experience || '—'),
+    '',
+    'About them:',
+    message
+  ].join('\n') : [
     'New enquiry from sharpbricklaying.com.au',
     '',
     'Name:    ' + name,
@@ -70,7 +85,9 @@ module.exports = async function handler(req, res) {
     from:     'Sharp Bricklaying Website <onboarding@resend.dev>',
     to:       ['luke@sharpbricklaying.com.au'],
     reply_to: email,
-    subject:  'New Enquiry from ' + name,
+    subject:  isApplication
+      ? 'Job application: ' + (role || 'role not given') + ' — ' + name
+      : 'New Enquiry from ' + name,
     text:     emailBody
   };
 

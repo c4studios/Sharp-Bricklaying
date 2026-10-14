@@ -253,10 +253,27 @@
     });
   }
 
+  // ─── CAREERS: "Apply for this role" → preselect the role ──
+  (function () {
+    var roleSelect = document.getElementById('form-role');
+    if (!roleSelect) return;
+    document.querySelectorAll('.role__apply[data-role]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        var want = link.getAttribute('data-role');
+        for (var i = 0; i < roleSelect.options.length; i++) {
+          if (want && roleSelect.options[i].value === want) { roleSelect.selectedIndex = i; break; }
+        }
+      });
+    });
+  })();
+
   // ─── CONTACT FORM ────────────────────────────────────
   var contactForm = document.getElementById('contact-form');
   var formStatus = document.getElementById('form-status');
   var submitBtn = contactForm ? contactForm.querySelector('button[type="submit"]') : null;
+  var submitLabel = submitBtn ? submitBtn.textContent : '';
+  // The careers page reuses this form with data-form="application".
+  var isApplication = contactForm && contactForm.getAttribute('data-form') === 'application';
 
   if (contactForm) {
     contactForm.addEventListener('submit', function (e) {
@@ -297,6 +314,11 @@
         service: (formData.get('project_type') || '').toString().trim(),
         message: (formData.get('message') || '').toString().trim()
       };
+      if (isApplication) {
+        payload.form       = 'application';
+        payload.role       = (formData.get('role') || '').toString().trim();
+        payload.experience = (formData.get('experience') || '').toString().trim();
+      }
 
       fetch(ENDPOINT, {
         method:  'POST',
@@ -305,7 +327,7 @@
       })
       .then(function (response) {
         if (response.ok) {
-          showFormStatus('Thanks! Your enquiry has been sent. Luke will be in touch shortly.', 'success');
+          showFormStatus(contactForm.getAttribute('data-success') || 'Thanks! Your enquiry has been sent. Luke will be in touch shortly.', 'success');
           contactForm.reset();
         } else {
           return response.json().then(function (data) {
@@ -319,7 +341,7 @@
       .finally(function () {
         if (submitBtn) {
           submitBtn.disabled = false;
-          submitBtn.textContent = 'Send Enquiry';
+          submitBtn.textContent = submitLabel || 'Send Enquiry';
         }
       });
     });
