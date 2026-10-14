@@ -30,7 +30,9 @@ The nav and footer are duplicated across five files (`index.html`, `gallery/`, `
 ## Traps in this repo
 `_headers` and `_redirects` are Netlify syntax. Vercel ignores both completely. Headers go in `vercel.json`, which already carries `X-Frame-Options: DENY` and `frame-ancestors 'none'` (shipped 4 Sep 2026, verified live with curl). Add any new header there, not to `_headers`.
 
-`Sharp Bricklaying.html` at the root is an old export, tracked in git, still mentioning .net. It is not served and is not the source of anything. Leave it unless the job is to delete it.
+`Sharp Bricklaying.html` at the root is an old export, tracked in git, still mentioning .net. It is not the source of anything. Leave it unless the job is to delete it.
+
+**Vercel publishes every file in the repo that `.vercelignore` does not list.** Until 15 Oct 2026 that included this file, the old export, the build scripts, `src/` and `uploads/`. They are excluded now and the validator fails if any exclusion goes missing. Anything new that is repo-only (notes, scripts, raw uploads) goes in `.vercelignore` too.
 
 Two ABNs appear on the invoice; only one is the paying entity. Check the brain before quoting either.
 

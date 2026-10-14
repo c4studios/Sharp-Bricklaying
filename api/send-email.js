@@ -33,16 +33,40 @@ module.exports = async function handler(req, res) {
     }
   }
 
-  var name    = (body.name    || '').toString().trim().slice(0, 200);
-  var email   = (body.email   || '').toString().trim().slice(0, 200);
-  var phone   = (body.phone   || '').toString().trim().slice(0, 50);
+  // Only accept posts from a page on this site. Browsers always send Origin on
+  // a fetch POST; a bot posting straight to the endpoint usually does not.
+  var origin = (req.headers && req.headers.origin) || '';
+  var host = (req.headers && (req.headers['x-forwarded-host'] || req.headers.host)) || '';
+  var originHost = '';
+  try { originHost = origin ? new URL(origin).host : ''; } catch (e) { originHost = ''; }
+  if (!originHost || originHost !== host) {
+    return send(403, { error: 'Forbidden.' });
+  }
+
+  // Honeypot: real visitors never see this field. Pretend success so bots move on.
+  if ((body._gotcha || '').toString().trim()) {
+    return send(200, { ok: true });
+  }
+
+  // Time trap: the page reports how long the form was open. Humans take longer
+  // than two seconds; scripted posts do not send it at all.
+  var elapsed = Number(body.elapsed);
+  if (!isFinite(elapsed) || elapsed < 2000) {
+    return send(400, { error: 'Please try again in a moment.' });
+  }
+
+  // Single-line fields feed the subject, so strip any line breaks.
+  function oneLine(v, max) { return (v || '').toString().replace(/[\r\n]+/g, ' ').trim().slice(0, max); }
+  var name    = oneLine(body.name, 200);
+  var email   = oneLine(body.email, 200);
+  var phone   = oneLine(body.phone, 50);
   // The front-end sends `service`; accept `project_type` too for safety.
-  var service = (body.service || body.project_type || '').toString().trim().slice(0, 100);
+  var service = oneLine(body.service || body.project_type, 100);
   var message = (body.message || '').toString().trim().slice(0, 2000);
   // The careers page posts form: 'application' with a role and experience.
   var isApplication = body.form === 'application';
-  var role       = (body.role || '').toString().trim().slice(0, 100);
-  var experience = (body.experience || '').toString().trim().slice(0, 100);
+  var role       = oneLine(body.role, 100);
+  var experience = oneLine(body.experience, 100);
 
   if (!name || !email || !message) {
     return send(400, { error: 'Name, email and message are required.' });

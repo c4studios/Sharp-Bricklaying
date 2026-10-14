@@ -274,6 +274,8 @@
   var submitLabel = submitBtn ? submitBtn.textContent : '';
   // The careers page reuses this form with data-form="application".
   var isApplication = contactForm && contactForm.getAttribute('data-form') === 'application';
+  // Sent with each submission so the server can drop instant, scripted posts.
+  var formOpenedAt = Date.now();
 
   if (contactForm) {
     contactForm.addEventListener('submit', function (e) {
@@ -312,7 +314,9 @@
         email:   (formData.get('email')   || '').toString().trim(),
         phone:   (formData.get('phone')   || '').toString().trim(),
         service: (formData.get('project_type') || '').toString().trim(),
-        message: (formData.get('message') || '').toString().trim()
+        message: (formData.get('message') || '').toString().trim(),
+        _gotcha: (formData.get('_gotcha') || '').toString(),
+        elapsed: Date.now() - formOpenedAt
       };
       if (isApplication) {
         payload.form       = 'application';

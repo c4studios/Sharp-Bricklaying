@@ -1,3 +1,14 @@
 # Kept in the repo, excluded from the Vercel deployment.
 # Drafts are not client-approved and must not be publicly reachable.
 _drafts
+
+# Repo-only files. Vercel publishes everything not listed here, which is how
+# CLAUDE.md and the old export were public until 15 Oct 2026.
+CLAUDE.md
+Sharp Bricklaying.html
+_headers
+_redirects
+optimize_images.py
+scripts
+src
+uploads

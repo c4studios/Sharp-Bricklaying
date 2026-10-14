@@ -248,6 +248,12 @@ Object.entries(linkSources).forEach(([name, html]) => {
 });
 assert(!read('sitemap.xml').includes('_drafts'), 'sitemap lists a draft');
 
+// Vercel publishes every file not in .vercelignore. These are repo-only and
+// were briefly public (CLAUDE.md carries internal notes).
+const vercelIgnore = read('.vercelignore').split(/\r?\n/).map((l) => l.trim());
+['CLAUDE.md', 'Sharp Bricklaying.html', '_headers', '_redirects', 'optimize_images.py', 'scripts', 'src', 'uploads']
+  .forEach((entry) => assert(vercelIgnore.includes(entry), `.vercelignore must exclude ${entry}`));
+
 // The dead .net domain must not reappear in anything we serve.
 const servedFiles = [
   'index.html',
