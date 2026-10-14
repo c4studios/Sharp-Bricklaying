@@ -28,14 +28,14 @@
   ],
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/(.*)",
       "has": [
         {
           "type": "host",
           "value": "www.sharpbricklaying.com.au"
         }
       ],
-      "destination": "https://sharpbricklaying.com.au/:path*",
+      "destination": "https://sharpbricklaying.com.au/$1",
       "permanent": true
     },
     {
