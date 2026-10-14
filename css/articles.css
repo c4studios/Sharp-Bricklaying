@@ -394,3 +394,5 @@ html { scrollbar-color: var(--green) var(--sand); }
 }
 .site-footer__nav a:hover { color: var(--white); }
 .site-footer__legal { width: 100%; margin-top: 22px; padding-top: 20px; border-top: 1px solid rgba(247,244,240,0.12); font-size: 13px; color: rgba(247,244,240,0.5); }
+
+.post__figure picture { display: block; }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WA Brick Shortage 2026: What We Know, What We&rsquo;re Seeing and What Comes Next | Sharp Bricklaying</title>
+  <title>WA Brick Shortage 2026: What We&rsquo;re Seeing | Sharp Bricklaying</title>
 
   <meta name="description" content="Allocations, imports and the Cardup restart. What we&rsquo;re seeing on the ground in WA&rsquo;s brick shortage, what we&rsquo;ve done about it, and what to do if you&rsquo;re planning a build.">
   <meta name="author" content="Sharp Bricklaying">
@@ -26,9 +26,9 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
   <meta name="theme-color" content="#1B4332">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="preload" href="/fonts/lato-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/barlow-condensed-800-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
   <link rel="stylesheet" href="/css/articles.css">
 
   <script type="application/ld+json">
@@ -65,7 +65,7 @@
 
   <header class="site-topbar">
     <a href="/" class="site-topbar__logo" aria-label="Sharp Bricklaying — Home">
-      <img src="/images/logo-dark.png" alt="Sharp Bricklaying">
+      <img src="/images/logo-dark.png" alt="Sharp Bricklaying" width="240" height="240">
     </a>
     <nav class="site-topbar__nav" aria-label="Primary">
       <span class="topbar-links">
@@ -93,7 +93,10 @@
 
       <div class="post__body rise rise-3">
         <figure class="post__figure">
-          <img src="/images/articles/wa-brick-shortage/brick-packs.jpeg" alt="Banded packs of red two-course bricks on a building site" width="1600" height="1066" loading="eager" fetchpriority="high" decoding="async">
+          <picture>
+            <source type="image/webp" srcset="/images/articles/wa-brick-shortage/brick-packs-720.webp 720w, /images/articles/wa-brick-shortage/brick-packs-1280.webp 1280w" sizes="(max-width: 700px) calc(100vw - 32px), 640px">
+            <img src="/images/articles/wa-brick-shortage/brick-packs.jpeg" alt="Banded packs of red two-course bricks on a building site" width="1600" height="1066" loading="eager" fetchpriority="high" decoding="async">
+          </picture>
           <figcaption>Packs of two-course bricks on site.</figcaption>
         </figure>
         <p class="lead">Western Australia has a serious brick supply problem.</p>
@@ -158,17 +161,26 @@
 
         <h2>What are the imported bricks actually like?</h2>
         <figure class="post__figure">
-          <img src="/images/articles/wa-brick-shortage/brick-cores.jpeg" alt="Close-up of the cores in the top of a standard pack of Midland Brick Maxibricks" width="1600" height="1066" loading="lazy" decoding="async">
+          <picture>
+            <source type="image/webp" srcset="/images/articles/wa-brick-shortage/brick-cores-720.webp 720w, /images/articles/wa-brick-shortage/brick-cores-1280.webp 1280w" sizes="(max-width: 700px) calc(100vw - 32px), 640px">
+            <img src="/images/articles/wa-brick-shortage/brick-cores.jpeg" alt="Close-up of the cores in the top of a standard pack of Midland Brick Maxibricks" width="1600" height="1066" loading="lazy" decoding="async">
+          </picture>
           <figcaption>A standard pack of Midland Brick Maxibrick.</figcaption>
         </figure>
         <p>We didn&rsquo;t commit a large sum to a product we hadn&rsquo;t seen. We physically inspected the two-course bricks before making the decision, obtained testing certification and reviewed their suitability.</p>
         <p>The product can be used as either rough masonry or face brick depending on the project. Dimensionally it&rsquo;s very similar to the local two-course products we&rsquo;re used to, within a few millimetres, with a similar core configuration. The bricks are slightly heavier, and noticeably heavier once wet, although they appear to dry relatively quickly.</p>
         <p>From a bricklayer&rsquo;s point of view there&rsquo;s no major difference in laying them. They don&rsquo;t cut quite as cleanly as the local Maxibricks we&rsquo;re used to, but with the right cutting equipment they cut perfectly acceptably. Based on what we&rsquo;ve seen and the testing documentation provided, we don&rsquo;t see any practical reason we wouldn&rsquo;t use them on an appropriate project.</p>
         <figure class="post__figure">
-          <img src="/images/articles/wa-brick-shortage/brick-face.jpeg" alt="Side faces of stacked two-course bricks held with steel strapping" width="1600" height="1066" loading="lazy" decoding="async">
+          <picture>
+            <source type="image/webp" srcset="/images/articles/wa-brick-shortage/brick-face-720.webp 720w, /images/articles/wa-brick-shortage/brick-face-1280.webp 1280w" sizes="(max-width: 700px) calc(100vw - 32px), 640px">
+            <img src="/images/articles/wa-brick-shortage/brick-face.jpeg" alt="Side faces of stacked two-course bricks held with steel strapping" width="1600" height="1066" loading="lazy" decoding="async">
+          </picture>
         </figure>
         <figure class="post__figure">
-          <img src="/images/articles/wa-brick-shortage/laid-wall.jpeg" alt="A freshly laid wall of red smooth face bricks on a residential site, before painting" width="1600" height="1200" loading="lazy" decoding="async">
+          <picture>
+            <source type="image/webp" srcset="/images/articles/wa-brick-shortage/laid-wall-720.webp 720w, /images/articles/wa-brick-shortage/laid-wall-1280.webp 1280w" sizes="(max-width: 700px) calc(100vw - 32px), 640px">
+            <img src="/images/articles/wa-brick-shortage/laid-wall.jpeg" alt="A freshly laid wall of red smooth face bricks on a residential site, before painting" width="1600" height="1200" loading="lazy" decoding="async">
+          </picture>
           <figcaption>1c Standard Paint Grade Smooth Face Brick wall, prior to it being painted white.</figcaption>
         </figure>
 
@@ -235,7 +247,7 @@
 
   <footer class="site-footer">
     <div class="wrap">
-      <a href="/" aria-label="Sharp Bricklaying — Home"><img src="/images/Bottom nav menu logo/sharp-bricklaying-logo-footer.png" alt="Sharp Bricklaying"></a>
+      <a href="/" aria-label="Sharp Bricklaying — Home"><img src="/images/Bottom nav menu logo/sharp-bricklaying-logo-footer.png" alt="Sharp Bricklaying" width="1240" height="1240" loading="lazy"></a>
       <div class="site-footer__contact">
         <a href="mailto:luke@sharpbricklaying.com.au">luke@sharpbricklaying.com.au</a>
         <a href="tel:+61431052354">+61 431 052 354</a>
