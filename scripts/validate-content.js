@@ -160,7 +160,6 @@ const requiredContactHeading = "LET'S DISCUSS YOUR NEXT PROJECT.";
 const requiredContactText = 'Whether your project is in planning or ready to commence, we welcome early enquiries. With our schedule often committed up to three months in advance, this allows us to properly plan, coordinate, and deliver each project to our standard while aligning with your proposed timeframe.';
 const mudboardsLogoPath = 'images/Sponsors and Affiliates Logo/mudboards_badge_transparent_cropped.png';
 const brickieGripLogoPath = 'images/Sponsors and Affiliates Logo/brickie_grip_logo.jpg';
-const affiliateLinkCss = css.match(/\.footer-affiliate-link\s*\{[\s\S]*?\}/)?.[0] || '';
 
 const normalized = {
   home: normalize(pages.home),
@@ -302,29 +301,14 @@ assert(normalized.home.includes(requiredQuote), 'Missing updated Luke Sharp quot
   assert(text.includes(requiredContactText), `${name} page missing contact text`);
 });
 
-// ── Sponsors (footer, on every page) ─────────────────────────
+// ── Affiliates (nav dropdown on every page; footer block removed 15 Oct 2026 at Luke's request)
 Object.entries(pages).forEach(([name, html]) => {
-  const text = normalized[name];
-  assert(html.includes('<h3>Sponsors &amp; Affiliates</h3>'), `${name}: missing Sponsors & Affiliates heading`);
-  assert(html.includes('href="https://mudboards.com.au/"'), `${name}: missing Mudboards sponsor link`);
-  assert(html.includes(mudboardsLogoPath), `${name}: missing Mudboards sponsor logo`);
-  assert(html.includes('data-sponsor-profile-open'), `${name}: missing sponsor profile trigger`);
-  assert(html.includes('id="sponsor-profile-modal"'), `${name}: missing Mudboards sponsor profile modal`);
-  assert(
-    text.includes('Mudboards Australia is bringing a smarter alternative to the standard ply and metal mudboards seen across site'),
-    `${name}: missing Mudboards sponsor profile extract`
-  );
-  assert(html.includes('href="https://www.brickiegrip.com.au/"'), `${name}: missing BrickieGrip sponsor link`);
-  assert(html.includes(brickieGripLogoPath), `${name}: missing BrickieGrip sponsor logo`);
-  assert(html.includes('aria-controls="sponsor-profile-modal-brickiegrip"'), `${name}: missing BrickieGrip profile trigger`);
-  assert(html.includes('id="sponsor-profile-modal-brickiegrip"'), `${name}: missing BrickieGrip profile modal`);
-  assert(
-    text.includes("BrickieGrip is a durable over-grip designed to wrap around your bricklayer's trowel handle"),
-    `${name}: missing BrickieGrip sponsor profile extract`
-  );
+  ['/partners/#mudboards', '/partners/#brickiegrip', '/partners/#bt-engineering'].forEach((href) => {
+    assert(html.includes(`href="${href}"`), `${name}: Affiliates dropdown missing ${href}`);
+  });
+  assert(html.includes('aria-controls="nav-affiliates"') && html.includes('aria-controls="mobile-affiliates"'), `${name}: Affiliates dropdown missing from nav or mobile menu`);
+  assert(!html.includes('footer-affiliates'), `${name}: footer Sponsors & Affiliates block should be gone`);
 });
-
-assert(/background:\s*transparent;/.test(affiliateLinkCss), 'Mudboards sponsor link must keep a transparent background');
 
 // ── Gallery media ────────────────────────────────────────────
 [
