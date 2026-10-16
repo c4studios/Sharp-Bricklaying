@@ -6,10 +6,14 @@ const FULL_VIEWBOX = '50 100 880 400';
 const FULL_ASPECT = 880 / 400;
 const LOCKUP_TRANSFORM = 'translate(18 -273) scale(1.5)';
 
+/* Light-footer values; getColours swaps in the dark ones. Since 17 Oct 2026
+   these are the master's light values (from Brady Electrical's copy): the C
+   at rest stays dark enough to read on white and the 4 sits a step back. The
+   C at rest is painted with mono.cArc; dormant.cArc is unused. */
 const COLOURS = {
-  dormant: { fourBody: '#b8b9ba', fourArm: '#c5c6c7', cArc: '#e6e4e2' },
-  mono: { fourBody: '#414243', fourArm: '#6c6d6d', cArc: '#e6e4e2', text: '#f3f2f0' },
-  colour: { fourBody: '#a30000', fourArm: '#22632f', cArc: '#f3f2f3', text: '#f3f2f0' },
+  dormant: { fourBody: '#8b8f92', fourArm: '#7c8083', cArc: '#4a4d4f' },
+  mono: { fourBody: '#414243', fourArm: '#6c6d6d', cArc: '#4a4d4f', text: '#1a1a1b' },
+  colour: { fourBody: '#a30000', fourArm: '#22632f', cArc: '#f3f2f3', text: '#1a1a1b' },
 };
 
 /* The mark at the lockup's scale, trued on 17 Oct 2026 ("Cuts 15.81, stem
@@ -314,12 +318,89 @@ function getFixedLetterHinge(letterNode, hingeOrigin) {
   return { x: box.x + box.width * x, y: box.y + box.height * y };
 }
 
-function getColours(colorScheme) {
+/* A computed background colour as sRGB 0 to 255, or null when it's
+   transparent or can't be read. The master's reader (17 Oct 2026): rgb() is
+   parsed, and anything else (oklch(), lab(), color(), which browsers report
+   in their own space) is painted onto a 1 x 1 canvas and read back as sRGB. */
+let colourProbe;
+
+function parseCssColour(value) {
+  if (!value || value === 'transparent') return null;
+
+  const legacy = value.match(/^rgba?\(([^)]+)\)$/i);
+  if (legacy) {
+    const [r, g, b, a = 1] = legacy[1]
+      .split(/[\s,/]+/)
+      .filter(Boolean)
+      .map((part) => Number.parseFloat(part));
+
+    if (![r, g, b].every(Number.isFinite) || !Number.isFinite(a) || a === 0) {
+      return null;
+    }
+
+    return { r, g, b };
+  }
+
+  if (typeof document === 'undefined') return null;
+  if (typeof CSS !== 'undefined' && CSS.supports && !CSS.supports('color', value)) return null;
+
+  try {
+    if (colourProbe === undefined) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1;
+      canvas.height = 1;
+      colourProbe = canvas.getContext('2d', { willReadFrequently: true }) || null;
+    }
+    if (!colourProbe) return null;
+
+    colourProbe.clearRect(0, 0, 1, 1);
+    /* a value the canvas can't take leaves fillStyle as it was, so start
+       from transparent: an unreadable colour then reads as no colour */
+    colourProbe.fillStyle = 'rgba(0, 0, 0, 0)';
+    colourProbe.fillStyle = value;
+    colourProbe.fillRect(0, 0, 1, 1);
+    const [r, g, b, a] = colourProbe.getImageData(0, 0, 1, 1).data;
+    if (a === 0) return null;
+
+    return { r, g, b };
+  } catch {
+    return null;
+  }
+}
+
+/* Auto mode, as the master decides it: the first background behind the badge
+   that isn't transparent, and the OS theme only when there is none. Until
+   17 Oct 2026 this file went by the OS theme alone, so a light-mode visitor
+   got the light palette on a dark footer. */
+function isDarkBackground(element) {
+  if (typeof window === 'undefined') return true;
+
+  let node = element?.parentElement || document.body;
+  while (node && node !== document.documentElement) {
+    const rgb = parseCssColour(window.getComputedStyle(node).backgroundColor);
+    if (rgb) {
+      const luminance = (0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b) / 255;
+      return luminance < 0.45;
+    }
+    node = node.parentElement;
+  }
+
+  const bodyRgb = parseCssColour(window.getComputedStyle(document.body).backgroundColor);
+  if (bodyRgb) {
+    const luminance = (0.2126 * bodyRgb.r + 0.7152 * bodyRgb.g + 0.0722 * bodyRgb.b) / 255;
+    return luminance < 0.45;
+  }
+
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+function getColours(colorScheme, root) {
   const isDark = colorScheme === 'auto'
-    ? window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? isDarkBackground(root)
     : colorScheme !== 'light';
   const dormant = { ...COLOURS.dormant };
   const mono = { ...COLOURS.mono };
+  const colour = { ...COLOURS.colour };
 
   if (isDark) {
     dormant.fourBody = '#606264';
@@ -329,9 +410,61 @@ function getColours(colorScheme) {
     mono.fourArm = '#8a8b8c';
     mono.cArc = '#d0cecc';
     mono.text = '#f3f2f0';
+  } else {
+    /* the near-white colour-stage C would vanish on a light footer, so it
+       is held dark there; the red and green 4 still leads the colour stage */
+    colour.cArc = '#43474a';
   }
 
-  return { dormant, mono, colour: COLOURS.colour };
+  /* the soft haze behind the mark glows on a dark footer and smudges a light one */
+  return { isDark, dormant, mono, colour, haze: isDark ? 0.15 : 0 };
+}
+
+/* Every fill the palette decides. renderCredit paints with it, and auto mode
+   repaints with it when the background behind the badge changes. The
+   timelines only move opacity, so a stage in progress carries on. */
+function applyColours(refs, { dormant, mono, colour, haze }) {
+  const fill = (node, value) => node.setAttribute('fill', value);
+  fill(refs.cBase, mono.cArc);
+  fill(refs.cBuildFill, colour.cArc);
+  fill(refs.cSeal, colour.cArc);
+  fill(refs.bodyDormant, dormant.fourBody);
+  fill(refs.bodyBase, mono.fourBody);
+  fill(refs.bodySeal, colour.fourBody);
+  fill(refs.armDormantFill, dormant.fourArm);
+  fill(refs.armBaseFill, mono.fourArm);
+  fill(refs.armSeal, colour.fourArm);
+  fill(refs.buildRed, colour.fourBody);
+  fill(refs.buildGreen, colour.fourArm);
+  refs.wordLetters.forEach((letter) => fill(letter, mono.text));
+  refs.backdrop.setAttribute('opacity', haze);
+}
+
+/* Auto mode reads the background again when it may have changed: a class or
+   style change on any ancestor (the footer, body or html), the OS theme
+   flipping (the fallback), or a resize. */
+function watchBackground(root, refs, colorScheme) {
+  let queued = false;
+  const resample = () => {
+    queued = false;
+    const palette = getColours(colorScheme, root);
+    if (palette.isDark === refs.isDark) return;
+    refs.isDark = palette.isDark;
+    applyColours(refs, palette);
+  };
+  const queue = () => {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(resample);
+  };
+  const observer = new MutationObserver(queue);
+  for (let node = root.parentElement; node; node = node.parentElement) {
+    observer.observe(node, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+  const osTheme = window.matchMedia('(prefers-color-scheme: dark)');
+  if (osTheme.addEventListener) osTheme.addEventListener('change', queue);
+  else if (osTheme.addListener) osTheme.addListener(queue);
+  window.addEventListener('resize', queue);
 }
 
 function addPath(parent, d, fill, refName, refs) {
@@ -352,7 +485,8 @@ function renderCredit(root, options) {
   const h = typeof options.size === 'number' ? options.size : (SIZES[options.size] || Number(options.size) || SIZES.default);
   const w = Math.round(h * FULL_ASPECT);
   const uid = `c4-${Math.random().toString(36).slice(2)}`;
-  const { dormant, mono, colour } = getColours(options.colorScheme);
+  const palette = getColours(options.colorScheme, root);
+  const { dormant, mono, colour } = palette;
   const refs = {};
 
   root.textContent = '';
@@ -407,7 +541,7 @@ function renderCredit(root, options) {
   refs.cBase.setAttribute('filter', `url(#${uid}-presence)`);
   /* the C's straight wipe, in the mark's own units; the finished C takes over at 0.48 s */
   refs.cBuild = attrs(ns('g'), { transform: LOCKUP_MATRIX });
-  addPath(refs.cBuild, MARK_C, colour.cArc, null, refs).setAttribute('clip-path', `url(#${uid}-c-wipe)`);
+  addPath(refs.cBuild, MARK_C, colour.cArc, 'cBuildFill', refs).setAttribute('clip-path', `url(#${uid}-c-wipe)`);
   lockup.appendChild(refs.cBuild);
   addPath(lockup, FULL_UPRIGHT.cArc, colour.cArc, 'cSeal', refs);
 
@@ -417,9 +551,9 @@ function renderCredit(root, options) {
 
   const armGroup = ns('g');
   refs.armDormant = ns('g');
-  addPolygon(refs.armDormant, FULL_UPRIGHT.fourArm, dormant.fourArm, null, refs);
+  addPolygon(refs.armDormant, FULL_UPRIGHT.fourArm, dormant.fourArm, 'armDormantFill', refs);
   refs.armBase = ns('g');
-  addPolygon(refs.armBase, FULL_UPRIGHT.fourArm, mono.fourArm, null, refs);
+  addPolygon(refs.armBase, FULL_UPRIGHT.fourArm, mono.fourArm, 'armBaseFill', refs);
   armGroup.append(refs.armDormant, refs.armBase);
   addPolygon(armGroup, FULL_UPRIGHT.fourArm, colour.fourArm, 'armSeal', refs);
   lockup.appendChild(armGroup);
@@ -454,6 +588,8 @@ function renderCredit(root, options) {
     root.appendChild(text);
   }
 
+  refs.isDark = palette.isDark;
+  applyColours(refs, palette);
   return refs;
 }
 
@@ -488,7 +624,9 @@ function buildTimelines(refs, reducedMotion) {
     });
   });
   gsap.set(refs.wordGroup, { y: 0, opacity: 1 });
-  gsap.set(refs.backdrop, { attr: { cx: 206, cy: 389, rx: 165, ry: 120 }, opacity: 0.15 });
+  /* the haze's opacity is the palette's attribute (applyColours), so auto
+     mode can change it; an inline style written here would freeze it */
+  gsap.set(refs.backdrop, { attr: { cx: 206, cy: 389, rx: 165, ry: 120 } });
 
   /* Reduced motion keeps every stage with the movement taken out: the stages
      fade, the finished colour mark fades in over 0.2 s instead of being
@@ -609,6 +747,7 @@ function initCredit(root) {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const refs = renderCredit(root, options);
   const timelines = buildTimelines(refs, reducedMotion);
+  if (options.colorScheme === 'auto') watchBackground(root, refs, options.colorScheme);
   let touchStart = 0;
   let touchConsumed = false;
 
