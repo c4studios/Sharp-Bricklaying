@@ -3851,3 +3851,13 @@ body.inner-page #nav.scrolled .nav-logo__on-light { display: block; }
 .mobile-menu .mobile-menu__sub a { font-size: 20px; padding: 7px 24px; color: rgba(255,255,255,0.8); }
 
 .partner { scroll-margin-top: 96px; }
+
+/* Seven nav items (Careers added 17 Oct 2026) need a tighter bar on small
+   laptops so the links never run into the logo before the 900px hamburger. */
+@media (max-width: 1180px) {
+  #nav { padding: 0 28px; }
+  .nav-links { gap: 2px; }
+  .nav-links a, .nav-dropdown__toggle { padding: 8px 11px; letter-spacing: 0.13em; }
+  .nav-links a::after { left: 11px; right: 11px; }
+  .nav-divider { margin: 0 6px; }
+}

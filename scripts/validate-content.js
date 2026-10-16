@@ -308,6 +308,7 @@ Object.entries(pages).forEach(([name, html]) => {
   });
   assert(html.includes('aria-controls="nav-affiliates"') && html.includes('aria-controls="mobile-affiliates"'), `${name}: Affiliates dropdown missing from nav or mobile menu`);
   assert(!html.includes('footer-affiliates'), `${name}: footer Sponsors & Affiliates block should be gone`);
+  assert((html.match(/href="\/careers\/"/g) || []).length >= 3, `${name}: Careers must be in the nav, the mobile menu and the footer`);
 });
 
 // ── Gallery media ────────────────────────────────────────────
