@@ -217,7 +217,8 @@ const linkSources = {
   contact: pages.contact,
   articles: read('articles/index.html'),
   partners: read('partners/index.html'),
-  careers: read('careers/index.html')
+  careers: read('careers/index.html'),
+  services: read('services/index.html')
 };
 
 Object.entries(linkSources).forEach(([name, html]) => {
@@ -261,6 +262,7 @@ const servedFiles = [
   'articles/index.html',
   'partners/index.html',
   'careers/index.html',
+  'services/index.html',
   'robots.txt',
   'sitemap.xml',
   '404.html',
@@ -308,6 +310,7 @@ Object.entries(pages).forEach(([name, html]) => {
   });
   assert(html.includes('aria-controls="nav-affiliates"') && html.includes('aria-controls="mobile-affiliates"'), `${name}: Affiliates dropdown missing from nav or mobile menu`);
   assert(!html.includes('footer-affiliates'), `${name}: footer Sponsors & Affiliates block should be gone`);
+  assert(!/href="\/?#services"/.test(html), `${name}: Services links must go to /services/, not the home section`);
   assert((html.match(/href="\/careers\/"/g) || []).length >= 3, `${name}: Careers must be in the nav, the mobile menu and the footer`);
 });
 
