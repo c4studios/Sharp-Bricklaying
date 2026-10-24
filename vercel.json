@@ -49,6 +49,11 @@
       "permanent": true
     },
     {
+      "source": "/services",
+      "destination": "/services/",
+      "permanent": true
+    },
+    {
       "source": "/articles",
       "destination": "/articles/",
       "permanent": true
