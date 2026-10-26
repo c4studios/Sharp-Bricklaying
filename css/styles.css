@@ -3913,3 +3913,15 @@ body.inner-page #nav.scrolled .nav-logo__on-light { display: block; }
   .svc__aside { position: static; }
   .svc__figure { max-width: 100%; }
 }
+
+/* ---- Partner in-use photos (25 Oct 2026) -------------------- */
+.partner__shots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 64ch;
+  margin: 26px 0 8px;
+}
+.partner__shot { margin: 0; aspect-ratio: 1; overflow: hidden; border-radius: 2px; background: #E6DFD4; }
+.partner__shot picture { display: block; width: 100%; height: 100%; }
+.partner__shot img { display: block; width: 100%; height: 100%; object-fit: cover; }

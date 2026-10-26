@@ -305,7 +305,7 @@ assert(normalized.home.includes(requiredQuote), 'Missing updated Luke Sharp quot
 
 // ── Affiliates (nav dropdown on every page; footer block removed 15 Oct 2026 at Luke's request)
 Object.entries(pages).forEach(([name, html]) => {
-  ['/partners/#mudboards', '/partners/#brickiegrip', '/partners/#bt-engineering'].forEach((href) => {
+  ['/partners/#mudboards', '/partners/#brickiegrip', '/partners/#bt-engineering', '/partners/#elev8'].forEach((href) => {
     assert(html.includes(`href="${href}"`), `${name}: Affiliates dropdown missing ${href}`);
   });
   assert(html.includes('aria-controls="nav-affiliates"') && html.includes('aria-controls="mobile-affiliates"'), `${name}: Affiliates dropdown missing from nav or mobile menu`);
