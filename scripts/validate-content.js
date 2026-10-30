@@ -305,7 +305,7 @@ assert(normalized.home.includes(requiredQuote), 'Missing updated Luke Sharp quot
 
 // ── Affiliates (nav dropdown on every page; footer block removed 15 Oct 2026 at Luke's request)
 Object.entries(pages).forEach(([name, html]) => {
-  ['/partners/#mudboards', '/partners/#brickiegrip', '/partners/#bt-engineering', '/partners/#elev8'].forEach((href) => {
+  ['/partners/#mudboards', '/partners/#brickiegrip', '/partners/#bt-engineering', '/partners/#elev8', '/partners/#titansox'].forEach((href) => {
     assert(html.includes(`href="${href}"`), `${name}: Affiliates dropdown missing ${href}`);
   });
   assert(html.includes('aria-controls="nav-affiliates"') && html.includes('aria-controls="mobile-affiliates"'), `${name}: Affiliates dropdown missing from nav or mobile menu`);
@@ -327,7 +327,13 @@ Object.entries(pages).forEach(([name, html]) => {
   ['job-panel-calypso', 'images/Calypso'],
   ['job-panel-calypso', 'images/Hammond Park'],
   ['job-panel-ccm', 'images/Mt Hawthorn CCM'],
-  ['job-panel-wembley', 'images/Wembley Downs - DIY']
+  ['job-panel-wembley', 'images/Wembley Downs - DIY'],
+  ['job-panel-delphi', 'images/Delphi, Rossmoyne'],
+  ['job-panel-patrick', 'images/Patrick, Sorrento'],
+  ['job-panel-gloster', 'images/Gloster, Subiaco'],
+  ['job-panel-jersey', 'images/Jersey, Wembley'],
+  ['job-panel-chadd', 'images/Chadd, Wembley Downs'],
+  ['job-panel-socials', 'images/Socials, Springs']
 ].forEach(([panelId, relativeDir]) => assertPanelHasFolder(panelId, relativeDir));
 
 assertPanelHasVideoFolder('job-panel-alice', 'images/Alice St, Doubleview');

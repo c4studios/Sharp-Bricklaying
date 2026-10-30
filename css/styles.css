@@ -3925,3 +3925,13 @@ body.inner-page #nav.scrolled .nav-logo__on-light { display: block; }
 .partner__shot { margin: 0; aspect-ratio: 1; overflow: hidden; border-radius: 2px; background: #E6DFD4; }
 .partner__shot picture { display: block; width: 100%; height: 100%; }
 .partner__shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* ---- Gallery tabs: two columns on phones (30 Oct 2026) -------
+   With 22 jobs the one-column list ran 1,532px before the first photo
+   at 375px wide; two columns bring it to under 800px. */
+@media (max-width: 900px) {
+  .gallery-tab-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gallery-tab { justify-content: center; padding: 10px 12px; text-align: left; }
+  .gallery-tab-title { font-size: 16px; letter-spacing: 0.08em; }
+  .gallery-tab-suburb { letter-spacing: 0.16em; }
+}
