@@ -1323,6 +1323,22 @@ section[id] { scroll-margin-top: 80px; }
   line-height: 1.8;
 }
 
+/* Master Builders WA member badge (Luke, 17 Nov 2026). MBAWA's "Reversed"
+   artwork: a white plate whose lettering is see-through, so the charcoal
+   footer shows through the words. Made for dark backgrounds; the "Mono"
+   file in the same pack is for light ones. Selector is two classes deep so
+   it beats the .footer-brand img sizing at every breakpoint. */
+.footer-brand .footer-member {
+  margin-top: 28px;
+}
+
+.footer-brand .footer-member img {
+  width: 200px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
 .footer-col h3 {
   font-family: 'Barlow Condensed', sans-serif;
   font-weight: 800;
@@ -2797,6 +2813,11 @@ body.lightbox-open {
     width: 160px;
     margin: 0 auto 20px;
   }
+  /* Keep the white member plate from out-weighing Sharp's own 160px logo */
+  .footer-brand .footer-member img {
+    width: 164px;
+    margin: 0 auto;
+  }
   .footer-affiliate-feature {
     align-items: flex-start;
     flex-direction: column;
@@ -2921,6 +2942,10 @@ body.lightbox-open {
   #footer { background: #fff; padding: 16px 0; }
   .footer-grid { display: block; }
   .footer-bottom p { color: #666; }
+  /* The white member badge would print white-on-white; inverted it becomes
+     the black plate of MBAWA's own Mono artwork, with the paper showing
+     through the lettering. */
+  .footer-member img { filter: invert(1); }
 
   /* Stats/Builders */
   #trusted-by { background: #111; }

@@ -373,6 +373,9 @@ html { scrollbar-color: var(--green) var(--sand); }
 }
 .site-footer .wrap { display: flex; flex-wrap: wrap; gap: 28px 48px; align-items: center; justify-content: space-between; }
 .site-footer img { height: 62px; width: auto; }
+/* Master Builders WA member badge, MBAWA's Reversed artwork for dark grounds */
+.site-footer .site-footer__member { height: 54px; }
+@media (max-width: 480px) { .site-footer .site-footer__member { height: 46px; } }
 .site-footer__contact { display: flex; flex-wrap: wrap; gap: 6px 26px; font-size: 14.5px; }
 .site-footer__contact a { color: rgba(247,244,240,0.82); text-decoration: none; }
 .site-footer__contact a:hover { color: var(--white); }
