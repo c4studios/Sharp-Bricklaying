@@ -314,6 +314,20 @@ Object.entries(pages).forEach(([name, html]) => {
   assert((html.match(/href="\/careers\/"/g) || []).length >= 3, `${name}: Careers must be in the nav, the mobile menu and the footer`);
 });
 
+// ── Master Builders WA member badge in every footer (Luke asked 17 Nov 2026)
+[
+  'index.html', 'gallery/index.html', 'contact/index.html', 'partners/index.html',
+  'careers/index.html', 'services/index.html', 'articles/index.html', 'articles/wa-brick-shortage/index.html'
+].forEach((file) => {
+  const html = read(file);
+  const footer = html.slice(html.indexOf('<footer'));
+  assert(
+    footer.includes('images/memberships/mbawa-member-reversed.png') && footer.includes('alt="Master Builders WA member"'),
+    `${file}: footer is missing the Master Builders WA member badge`
+  );
+});
+assert(fs.existsSync(path.join(root, 'images/memberships/mbawa-member-reversed.png')), 'Master Builders WA badge image is missing');
+
 // ── Gallery media ────────────────────────────────────────────
 [
   ['job-panel-broome', 'images/Broome St'],
@@ -334,7 +348,8 @@ Object.entries(pages).forEach(([name, html]) => {
   ['job-panel-jersey', 'images/Jersey, Wembley'],
   ['job-panel-chadd', 'images/Chadd, Wembley Downs'],
   ['job-panel-socials', 'images/Socials, Springs'],
-  ['job-panel-robinson', 'images/Robinson, Cloverdale']
+  ['job-panel-robinson', 'images/Robinson, Cloverdale'],
+  ['job-panel-elephant', 'images/Elephant, Springs']
 ].forEach(([panelId, relativeDir]) => assertPanelHasFolder(panelId, relativeDir));
 
 assertPanelHasVideoFolder('job-panel-alice', 'images/Alice St, Doubleview');
