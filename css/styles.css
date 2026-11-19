@@ -2146,6 +2146,11 @@ body.lightbox-open {
   max-width: 540px;
 }
 
+/* Luke's longer write-ups keep his paragraph breaks (first: Elephant, Springs) */
+.gallery-group-desc + .gallery-group-desc {
+  margin-top: 10px;
+}
+
 .gallery-group-divider {
   border: none;
   border-top: 1px solid rgba(122,118,112,0.2);
